@@ -1,0 +1,6 @@
+procedure First {
+    x = 2;
+    while x {
+        x = x - 1; }
+    y = &32;
+    z = y + 4; }
