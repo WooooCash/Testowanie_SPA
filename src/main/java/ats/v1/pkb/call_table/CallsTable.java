@@ -1,4 +1,4 @@
 package ats.v1.pkb.call_table;
 
-public interface CallTable {
+public interface CallsTable {
 }
