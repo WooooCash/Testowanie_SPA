@@ -1,10 +1,12 @@
-package ats.v1.spa_frontend;
+package ats.v1.spa_frontend.token;
 
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+@Getter
 @RequiredArgsConstructor
 public class Token {
+
     final TokenType type;
     final String lexeme;
     final int value;
