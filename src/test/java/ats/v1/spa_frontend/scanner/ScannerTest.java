@@ -1,14 +1,14 @@
-package ats.v1.spa_frontend;
+package ats.v1.spa_frontend.scanner;
 
-import ats.v1.spa_frontend.scanner.Scanner;
+import ats.v1.spa_frontend.token.Token;
+import ats.v1.spa_frontend.token.TokenType;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestScanner {
+class ScannerTest {
 
     @Test
     void testScanProgramWithCorrectCharacters() {
@@ -25,10 +25,9 @@ public class TestScanner {
 
         Scanner s = new Scanner(program);
         List<Token> scannedTokens = s.scanTokens();
-
         assertEquals(expectedTokens.length, scannedTokens.size());
         for (int i = 0; i < scannedTokens.size(); i++)
-            assertEquals(expectedTokens[i], scannedTokens.get(i).type);
+            assertEquals(expectedTokens[i], scannedTokens.get(i).getType());
     }
 
     @Test
@@ -39,4 +38,5 @@ public class TestScanner {
 
         assertEquals(1, scannedTokens.size()); // EOF token will always be added at the end
     }
+
 }

@@ -1,16 +1,18 @@
 package ats.v1.spa_frontend.scanner;
 
-import ats.v1.spa_frontend.Token;
-import ats.v1.spa_frontend.TokenType;
+import ats.v1.spa_frontend.token.Token;
+import ats.v1.spa_frontend.token.TokenType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static ats.v1.spa_frontend.TokenType.*;
+import static ats.v1.spa_frontend.token.TokenType.*;
 
+@Slf4j
 @RequiredArgsConstructor
 public class Scanner {
 
@@ -19,7 +21,7 @@ public class Scanner {
         keywords = new HashMap<>();
         keywords.put("procedure", PROCEDURE);
         keywords.put("while", WHILE);
-    }
+    } //TODO wynieść do zewnętrznej klasy
 
     private final String programSource;
     private final List<Token> tokens = new ArrayList<>();
@@ -44,6 +46,7 @@ public class Scanner {
 
     private void scanToken() {
         char c = advance();
+
         switch (c) {
             case '(': addToken(LEFT_PAREN); break;
             case ')': addToken(RIGHT_PAREN); break;
@@ -67,6 +70,7 @@ public class Scanner {
                     identifier();
                     break;
                 }
+                //log.error("[Scanner] Unrecognized character {} on line {}", c, line); //todo ogarnąć slf4j
                 System.err.printf("[Scanner] Unrecognized character %c on line %d\n", c, line);
                 break;
         }
@@ -78,11 +82,14 @@ public class Scanner {
     }
 
     private void identifier() {
-        while (isAlphaNumeric(lookAhead())) advance();
+        while(isAlphaNumeric(lookAhead())){
+            advance();
+        }
         String lexeme = programSource.substring(start, current);
         TokenType type = keywords.get(lexeme);
-        if (type == null)
+        if(type == null) {
             type = IDENTIFIER;
+        }
         addToken(type);
     }
 
@@ -95,8 +102,7 @@ public class Scanner {
     }
 
     private char lookAhead() {
-        if (atEnd()) return '\0';
-        return programSource.charAt(current);
+        return atEnd() ? '\0' : programSource.charAt(current);
     }
 
     private boolean isAlphaNumeric(char c) {
@@ -123,4 +129,5 @@ public class Scanner {
         String lexeme = programSource.substring(start, current);
         tokens.add(new Token(type, lexeme, value, line));
     }
+
 }
