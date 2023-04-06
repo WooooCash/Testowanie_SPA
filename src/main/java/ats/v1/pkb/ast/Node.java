@@ -3,13 +3,13 @@ package ats.v1.pkb.ast;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 public class Node {
     private NodeType type;
-    private ArrayList<Node> children;
+    private List<Node> children;
     private Node leftSibling;
     private Node rightSibling;
     private Node parent;

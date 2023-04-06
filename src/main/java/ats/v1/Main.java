@@ -14,7 +14,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         try {
-            processFile("sample_program.smpl");
+            processFile("defaultfiles/sample_program.smpl");
         } catch (Exception e) {
             e.printStackTrace();
         }

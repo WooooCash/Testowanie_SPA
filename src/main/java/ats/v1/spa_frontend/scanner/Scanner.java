@@ -45,7 +45,7 @@ public class Scanner {
     }
 
     private void scanToken() {
-        char c = advance();
+        char c = moveToNextChar();
 
         switch (c) {
             case '(': addToken(LEFT_PAREN); break;
@@ -77,13 +77,13 @@ public class Scanner {
     }
 
     private void number() {
-        while (isDigit(lookAhead())) advance();
+        while (isDigit(lookAhead())) moveToNextChar();
         addToken(NUMBER, Integer.parseInt(programSource.substring(start, current)));
     }
 
     private void identifier() {
         while(isAlphaNumeric(lookAhead())){
-            advance();
+            moveToNextChar();
         }
         String lexeme = programSource.substring(start, current);
         TokenType type = keywords.get(lexeme);
@@ -117,7 +117,7 @@ public class Scanner {
         return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
     }
 
-    private char advance() {
+    private char moveToNextChar() {
         return programSource.charAt(current++);
     }
 
