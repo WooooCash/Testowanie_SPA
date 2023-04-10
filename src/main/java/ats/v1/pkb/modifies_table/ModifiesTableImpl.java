@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ModifiesTableImpl implements ModifiesTable {
-    Map<Integer, List<Integer>> modified = new HashMap<>();
-    Map<Integer, List<Integer>> modifies = new HashMap<>();
+    private Map<Integer, List<Integer>> modified = new HashMap<>();
+    private Map<Integer, List<Integer>> modifies = new HashMap<>();
 
     /**
      * Sets a relationship which describes a variable being modified by a specified statement.
@@ -17,10 +17,8 @@ public class ModifiesTableImpl implements ModifiesTable {
      */
     @Override
     public void setModifies(int statementLineNr, int varIdx) {
-        List<Integer> varList = modified.containsKey(statementLineNr) ?
-                modified.get(statementLineNr) : modified.put(statementLineNr, new ArrayList<>());
-        List<Integer> statementList = modifies.containsKey(varIdx) ?
-                modifies.get(varIdx) : modifies.put(varIdx, new ArrayList<>());
+        List<Integer> varList = getMapValueList(modified, statementLineNr);
+        List<Integer> statementList = getMapValueList(modifies, varIdx);
 
         if (!varList.contains(varIdx))
             varList.add(varIdx);
@@ -63,8 +61,15 @@ public class ModifiesTableImpl implements ModifiesTable {
         try {
             List<Integer> varList = modified.get(statementLineNr);
             return varList.contains(varIdx);
-        } catch (IndexOutOfBoundsException e) {
+        } catch (NullPointerException e) {
             return false;
         }
+    }
+
+    private List<Integer> getMapValueList(Map<Integer, List<Integer>> map, int key) {
+        if (!map.containsKey(key))
+            map.put(key, new ArrayList<>());
+
+        return map.get(key);
     }
 }
