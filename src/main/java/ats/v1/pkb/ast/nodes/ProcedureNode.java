@@ -7,4 +7,9 @@ public class ProcedureNode extends Node {
         super();
         this.name = name;
     }
+
+    @Override
+    protected String nodeName() {
+        return super.nodeName() + " - Name: " + name;
+    }
 }

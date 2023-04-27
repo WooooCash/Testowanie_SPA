@@ -7,4 +7,9 @@ public class StatementNode extends Node {
         super();
         this.line = line;
     }
+
+    @Override
+    protected String nodeName() {
+        return super.nodeName() + " - Line: " + line;
+    }
 }
