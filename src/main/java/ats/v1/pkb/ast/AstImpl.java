@@ -1,5 +1,8 @@
 package ats.v1.pkb.ast;
 
+import ats.v1.pkb.ast.nodes.Node;
+import ats.v1.pkb.ast.nodes.NodeType;
+
 public class AstImpl implements Ast {
     @Override
     public Node createNode(final NodeType type) {
