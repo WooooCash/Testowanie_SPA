@@ -1,5 +1,7 @@
 package ats.v1;
 
+import ats.v1.pkb.Parser;
+import ats.v1.pkb.ast.nodes.Node;
 import ats.v1.spa_frontend.token.Token;
 import ats.v1.spa_frontend.scanner.Scanner;
 import lombok.extern.slf4j.Slf4j;
@@ -32,5 +34,8 @@ public class Main {
         System.out.printf("%2s %11s %9s %2s\n", "LN", "TYPE", "TEXT", "VAL"); //todo zamienić na log/throw
         for (Token t : tokens) System.out.println(t);
         // Parse
+        Parser parser = new Parser(tokens);
+        Node root = parser.parseTokens();
+        System.out.println(root.toString());
     }
 }
