@@ -25,6 +25,7 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("Ready");
     }
 
     private static void processFile(String path) throws IOException {
