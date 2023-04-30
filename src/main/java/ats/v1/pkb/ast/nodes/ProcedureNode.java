@@ -1,15 +1,15 @@
 package ats.v1.pkb.ast.nodes;
 
 public class ProcedureNode extends Node {
-    private String name;
+    private final int procIdx;
 
-    public ProcedureNode(String name) {
+    public ProcedureNode(int procIdx) {
         super();
-        this.name = name;
+        this.procIdx = procIdx;
     }
 
     @Override
     protected String nodeName() {
-        return super.nodeName() + " - Name: " + name;
+        return super.nodeName() + " - Index: " + procIdx;
     }
 }
