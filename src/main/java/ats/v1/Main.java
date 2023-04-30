@@ -21,7 +21,7 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         try {
-            processFile("sample_program.smpl");
+            processFile(args[0]);
         } catch (Exception e) {
             e.printStackTrace();
         }
