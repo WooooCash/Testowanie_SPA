@@ -62,6 +62,9 @@ public class Parser {
     private List<Node> statementList() throws WrongTokenException {
         List<Node> statementList = new ArrayList<>();
         TokenType nextType = lookAhead();
+        // TODO: set follows relationship in statement list
+        // Stworzyć w AST metode setFollows(current, followed)
+        // Pomijając pierwszy statement w statement list, dla każdej przypisać setFollows(statement, statementList.get(index-1))
         while(nextType != TokenType.RIGHT_BRACE && nextType != TokenType.EOF) {
             StatementNode statement = statement();
             statementList.add(statement);

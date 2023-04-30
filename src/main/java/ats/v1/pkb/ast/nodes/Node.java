@@ -11,8 +11,6 @@ import java.util.List;
 @Setter
 public abstract class Node {
     private List<Node> children;
-    private Node leftSibling;
-    private Node rightSibling;
     private Node parent;
     private Node follows;
 
