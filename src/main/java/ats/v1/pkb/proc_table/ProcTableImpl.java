@@ -1,48 +1,39 @@
 package ats.v1.pkb.proc_table;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ProcTableImpl implements ProcTable {
-    HashMap<Integer, String> procsByIdx = new HashMap<>();
-    HashMap<String, Integer> procsByName = new HashMap<>();
+    List<String> table = new ArrayList<>();
 
     @Override
     public int insert(String name) {
-        if (contains(name))
-            return getProcIndex(name);
-
-        int newIdx = procsByIdx.size();
-        procsByIdx.put(newIdx, name);
-        procsByName.put(name, newIdx);
-        return newIdx;
-    }
-
-    @Override
-    public String getProcName(int idx) {
-        if (!procsByIdx.containsKey(idx))
-            return null;
-        return procsByIdx.get(idx);
-    }
-
-    @Override
-    public int getProcIndex(String name) {
-        if (!contains(name))
+        if (table.contains(name))
             return -1;
-        return procsByName.get(name);
+
+        table.add(name);
+        return table.indexOf(name);
     }
 
     @Override
-    public boolean contains(String name) {
-        return procsByName.containsKey(name);
+    public String getName(int idx) {
+        return table.get(idx);
     }
+
+    @Override
+    public int getIndexOf(String name) {
+        return table.indexOf(name);
+    }
+
 
     @Override
     public String toString() {
-        StringBuilder tableStr = new StringBuilder("Proc TABLE\n");
+        StringBuilder tableStr = new StringBuilder("PROC TABLE\n");
         tableStr.append("_____________________\n");
         tableStr.append(String.format("| %6s | %8s |\n", "INDEX", "NAME"));
-        for (int key : procsByIdx.keySet()) {
-            tableStr.append(String.format("| %6d | %8s |\n", key, procsByIdx.get(key)));
+        for (int i = 0; i < table.size(); i++) {
+            tableStr.append(String.format("| %6d | %8s |\n", i, table.get(i)));
         }
         tableStr.append("---------------------\n");
         return tableStr.toString();

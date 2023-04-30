@@ -1,48 +1,38 @@
 package ats.v1.pkb.var_table;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VarTableImpl implements VarTable {
-    HashMap<Integer, String> varsByIdx = new HashMap<>();
-    HashMap<String, Integer> varsByName = new HashMap<>();
+    List<String> table = new ArrayList<>();
 
     @Override
     public int insert(String name) {
-        if (contains(name))
-            return getVarIndex(name);
-
-        int newIdx = varsByIdx.size();
-        varsByIdx.put(newIdx, name);
-        varsByName.put(name, newIdx);
-        return newIdx;
-    }
-
-    @Override
-    public String getVarName(int idx) {
-        if (!varsByIdx.containsKey(idx))
-            return null;
-        return varsByIdx.get(idx);
-    }
-
-    @Override
-    public int getVarIndex(String name) {
-        if (!contains(name))
+        if (table.contains(name))
             return -1;
-        return varsByName.get(name);
+
+        table.add(name);
+        return table.indexOf(name);
     }
 
     @Override
-    public boolean contains(String name) {
-        return varsByName.containsKey(name);
+    public String getName(int idx) {
+        return table.get(idx);
     }
+
+    @Override
+    public int getIndexOf(String name) {
+        return table.indexOf(name);
+    }
+
 
     @Override
     public String toString() {
         StringBuilder tableStr = new StringBuilder("VAR TABLE\n");
         tableStr.append("_____________________\n");
         tableStr.append(String.format("| %6s | %8s |\n", "INDEX", "NAME"));
-        for (int key : varsByIdx.keySet()) {
-            tableStr.append(String.format("| %6d | %8s |\n", key, varsByIdx.get(key)));
+        for (int i = 0; i < table.size(); i++) {
+            tableStr.append(String.format("| %6d | %8s |\n", i, table.get(i)));
         }
         tableStr.append("---------------------\n");
         return tableStr.toString();
