@@ -1,9 +1,10 @@
-package ats.v1.pkb.var_table;
+package ats.v1.pkb.proc_table;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class VarTableImpl implements VarTable {
+public class ProcTableImpl implements ProcTable {
     List<String> table = new ArrayList<>();
 
     @Override
@@ -28,7 +29,7 @@ public class VarTableImpl implements VarTable {
 
     @Override
     public String toString() {
-        StringBuilder tableStr = new StringBuilder("VAR TABLE\n");
+        StringBuilder tableStr = new StringBuilder("PROC TABLE\n");
         tableStr.append("_____________________\n");
         tableStr.append(String.format("| %6s | %8s |\n", "INDEX", "NAME"));
         for (int i = 0; i < table.size(); i++) {

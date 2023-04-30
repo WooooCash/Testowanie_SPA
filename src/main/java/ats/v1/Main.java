@@ -1,5 +1,12 @@
 package ats.v1;
 
+import ats.v1.pkb.Parser;
+import ats.v1.pkb.ast.Ast;
+import ats.v1.pkb.ast.nodes.Node;
+import ats.v1.pkb.proc_table.ProcTable;
+import ats.v1.pkb.proc_table.ProcTableImpl;
+import ats.v1.pkb.var_table.VarTable;
+import ats.v1.pkb.var_table.VarTableImpl;
 import ats.v1.spa_frontend.token.Token;
 import ats.v1.spa_frontend.scanner.Scanner;
 import lombok.extern.slf4j.Slf4j;
@@ -14,10 +21,11 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
         try {
-            processFile("sample_program.smpl");
+            processFile(args[0]);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("Ready");
     }
 
     private static void processFile(String path) throws IOException {
@@ -29,8 +37,14 @@ public class Main {
         // Scan
         Scanner scanner = new Scanner(programSource);
         List<Token> tokens = scanner.scanTokens();
-        System.out.printf("%2s %11s %9s %2s\n", "LN", "TYPE", "TEXT", "VAL"); //todo zamienić na log/throw
-        for (Token t : tokens) System.out.println(t);
         // Parse
+        VarTable varTable = new VarTableImpl();
+        ProcTable procTable = new ProcTableImpl();
+        Parser parser = new Parser(tokens, varTable, procTable);
+        Ast ast = parser.parseTokens();
+        System.out.println(ast.getRoot().toString());
+        System.out.println(procTable);
+        System.out.println(varTable);
+
     }
 }
