@@ -1,6 +1,6 @@
 package ats.v1.spa_frontend.scanner;
 
-import ats.v1.spa_frontend.token.Token;
+import ats.v1.common.Token;
 import ats.v1.spa_frontend.token.TokenType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,19 +24,19 @@ public class Scanner {
     } //TODO wynieść do zewnętrznej klasy
 
     private final String programSource;
-    private final List<Token> tokens = new ArrayList<>();
+    private final List<Token<TokenType>> tokens = new ArrayList<>();
     private int start = 0;
     private int current = 0;
     private int line = 1;
 
 
-    public List<Token> scanTokens() {
+    public List<Token<TokenType>> scanTokens() {
         while (!atEnd()) {
             start = current;
             scanToken();
         }
 
-        tokens.add(new Token(EOF, "", -1, line));
+        tokens.add(new Token<>(EOF, "", -1, line));
         return tokens;
     }
 
@@ -127,7 +127,7 @@ public class Scanner {
 
     private void addToken(TokenType type, int value) {
         String lexeme = programSource.substring(start, current);
-        tokens.add(new Token(type, lexeme, value, line));
+        tokens.add(new Token<TokenType>(type, lexeme, value, line));
     }
 
 }

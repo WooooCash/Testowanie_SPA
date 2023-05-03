@@ -1,6 +1,6 @@
 package ats.v1.spa_frontend.scanner;
 
-import ats.v1.spa_frontend.token.Token;
+import ats.v1.common.Token;
 import ats.v1.spa_frontend.token.TokenType;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +24,7 @@ class ScannerTest {
         };
 
         Scanner s = new Scanner(program);
-        List<Token> scannedTokens = s.scanTokens();
+        List<Token<TokenType>> scannedTokens = s.scanTokens();
         assertEquals(expectedTokens.length, scannedTokens.size());
         for (int i = 0; i < scannedTokens.size(); i++)
             assertEquals(expectedTokens[i], scannedTokens.get(i).getType());
@@ -34,7 +34,7 @@ class ScannerTest {
     void testScanProgramWithUnrecognizedTokens() {
         String program = "% [ & ^";
         Scanner s = new Scanner(program);
-        List<Token> scannedTokens = s.scanTokens();
+        List<Token<TokenType>> scannedTokens = s.scanTokens();
 
         assertEquals(1, scannedTokens.size()); // EOF token will always be added at the end
     }
