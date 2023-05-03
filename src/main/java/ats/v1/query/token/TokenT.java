@@ -11,9 +11,14 @@ public enum TokenT {
     MODIFIES,
     WITH,
     DOT,
+    AND,
+    QUOTATION,
     VARNAME,
     STMT,
     EQUALS,
     NUMBER,
+    LEXEME,
+    LEFT_PAREN,
+    RIGHT_PAREN
 
 }

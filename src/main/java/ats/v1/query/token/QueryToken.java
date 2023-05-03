@@ -14,20 +14,22 @@ public class QueryToken {
     private void initValues() {
         values.put("Select", TokenT.SELECT);
         values.put("such", TokenT.SUCH);
-//        values.put(TokenT.THAT, "that");
-//        values.put(TokenT.FOLLOWS, "Follows");
-//        values.put(TokenT.FOLLOWS_PLUS, "Follows*");
-//        values.put(TokenT.PARENT, "Parent");
-//        values.put(TokenT.PARENT_PLUS, "Parent*");
-//        values.put(TokenT.MODIFIES, "Modifies");
-//        values.put(TokenT.WITH, "with");
-//        values.put(TokenT.DOT, ".");
-//        values.put(TokenT.VARNAME, "varName");
-//        values.put(TokenT.STMT, "stmt");
-//        values.put(TokenT.EQUALS, "=");
+        values.put("that", TokenT.THAT);
+        values.put("Follows", TokenT.FOLLOWS);
+        values.put("Follows*", TokenT.FOLLOWS_PLUS);
+        values.put("Parent", TokenT.PARENT);
+        values.put("Parent*", TokenT.PARENT_PLUS);
+        values.put("Modifies", TokenT.MODIFIES);
+        values.put("with", TokenT.WITH);
+        values.put(".", TokenT.DOT);
+        values.put(",", TokenT.AND);
+        values.put("”", TokenT.QUOTATION);
+        values.put("varName", TokenT.VARNAME);
+        values.put("stmt", TokenT.STMT);
+        values.put("=", TokenT.EQUALS);
+        values.put("(", TokenT.LEFT_PAREN);
+        values.put(")", TokenT.RIGHT_PAREN);
     }
-
-
 
 
     public TokenT getTokenType(final String value) {
