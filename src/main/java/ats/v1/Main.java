@@ -11,7 +11,9 @@ import ats.v1.spa_frontend.token.Token;
 import ats.v1.spa_frontend.scanner.Scanner;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -19,13 +21,17 @@ import java.util.List;
 
 @Slf4j
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         try {
             processFile(args[0]);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("Ready");
+        InputStreamReader reader = new InputStreamReader(System.in);
+        BufferedReader bufferedReader = new BufferedReader(reader);
+        bufferedReader.read();
+        System.out.println("FALSE");
+//        System.out.println("Ready");
     }
 
     private static void processFile(String path) throws IOException {
