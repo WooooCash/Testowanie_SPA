@@ -21,17 +21,22 @@ import java.util.List;
 
 @Slf4j
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         try {
             processFile(args[0]);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        InputStreamReader reader = new InputStreamReader(System.in);
-        BufferedReader bufferedReader = new BufferedReader(reader);
-        bufferedReader.read();
-        System.out.println("FALSE");
-//        System.out.println("Ready");
+        System.out.println("Ready");
+
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+        while (sc.hasNextLine()) {
+            String input = sc.nextLine();
+            if (input.length() == 0) break;
+            System.out.println("FALSE " + input);
+        }
+
+
     }
 
     private static void processFile(String path) throws IOException {
@@ -51,6 +56,7 @@ public class Main {
         System.out.println(ast.getRoot().toString());
         System.out.println(procTable);
         System.out.println(varTable);
+
 
     }
 }
