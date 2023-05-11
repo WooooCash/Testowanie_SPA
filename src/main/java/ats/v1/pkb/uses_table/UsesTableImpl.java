@@ -72,4 +72,19 @@ public class UsesTableImpl implements UsesTable {
 
         return map.get(key);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder tableStr = new StringBuilder("USES TABLE\n");
+        tableStr.append("__________________________\n");
+        tableStr.append(String.format("| %10s | %8s \n", "STATEMENT", "VARS"));
+        for (int statementLine : used.keySet()) {
+            StringBuilder vars = new StringBuilder();
+            for (int varIdx : used.get(statementLine))
+                vars.append(varIdx + ", ");
+            tableStr.append(String.format("| %10d | %8s \n", statementLine, vars.toString()));
+        }
+        tableStr.append("--------------------------\n");
+        return tableStr.toString();
+    }
 }

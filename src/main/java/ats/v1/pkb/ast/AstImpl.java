@@ -49,9 +49,9 @@ public class AstImpl implements Ast {
      */
     @Override
     public Node getNthChild(final Node parent, final int n) {
-        if (n >= parent.getChildren().size()-1)
+        if (n > parent.getChildren().size())
             return null;
 
-        return parent.getChildren().get(n+1);
+        return parent.getChildren().get(n-1);
     }
 }

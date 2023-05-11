@@ -72,4 +72,19 @@ public class ModifiesTableImpl implements ModifiesTable {
 
         return map.get(key);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder tableStr = new StringBuilder("MODIFIES TABLE\n");
+        tableStr.append("__________________________\n");
+        tableStr.append(String.format("| %10s | %8s \n", "STATEMENT", "VARS"));
+        for (int statementLine : modified.keySet()) {
+            StringBuilder vars = new StringBuilder();
+            for (int varIdx : modified.get(statementLine))
+                vars.append(varIdx + ", ");
+            tableStr.append(String.format("| %10d | %8s \n", statementLine, vars.toString()));
+        }
+        tableStr.append("--------------------------\n");
+        return tableStr.toString();
+    }
 }
