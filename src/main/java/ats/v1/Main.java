@@ -20,6 +20,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+
 @Slf4j
 public class Main {
     public static void main(String[] args) {
@@ -33,9 +34,10 @@ public class Main {
 
         java.util.Scanner sc = new java.util.Scanner(System.in);
         while (sc.hasNextLine()) {
-            String input = sc.nextLine();
-            if (input.length() == 0) break;
-            System.out.println("FALSE " + input);
+            String declaration = sc.nextLine();
+            String queryString = sc.nextLine();
+            if (queryString.length() == 0) break;
+            System.out.println("FALSE " + declaration + " " + queryString);
         }
 
 
