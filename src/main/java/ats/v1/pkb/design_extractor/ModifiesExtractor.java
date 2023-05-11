@@ -20,5 +20,15 @@ public class ModifiesExtractor implements Extractor {
         StatementNode statement = (StatementNode)node;
         VarNode var = (VarNode)ast.getNthChild(node, 1);
         mtable.setModifies(statement.getLine(), var.getVarIdx());
+
+        updateParents(statement.getParent(), var.getVarIdx());
+    }
+
+    private void updateParents(Node parent, int varIdx) {
+        if (parent == null) return;
+        if (!(parent instanceof WhileNode)) return;
+        StatementNode statement = (WhileNode) parent;
+        mtable.setModifies(statement.getLine(), varIdx);
+        updateParents(statement.getParent(), varIdx);
     }
 }

@@ -2,7 +2,8 @@ procedure First {
     x = 2;
     y = x + 1;
     while x {
-        x = x + y + 1; }
+        x = x + y + 1;
+        y = y + 3; }
     y = &32;
     z = y + 4; }
 
