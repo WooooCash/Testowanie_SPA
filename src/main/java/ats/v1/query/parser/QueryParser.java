@@ -1,43 +1,44 @@
 package ats.v1.query.parser;
 
 import ats.v1.common.QueryUtils;
-import ats.v1.common.Reader;
-import ats.v1.common.Token;
-import ats.v1.query.token.QueryTokenValue;
+import ats.v1.common.Parser;
 import ats.v1.query.token.QueryToken;
+import ats.v1.spa_frontend.token.Token;
+import ats.v1.query.token.QueryTokenValue;
+import ats.v1.query.token.QueryTokenType;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class QueryReader implements Reader<Token<QueryToken>> {
+public class QueryParser implements Parser<QueryToken> {
 
     private final QueryTokenValue queryTokenValue = new QueryTokenValue();
-    private final List<Token<QueryToken>> tokens = new ArrayList<>();
+    private final List<QueryToken> tokens = new ArrayList<>();
 
     @Override
-    public List<Token<QueryToken>> parse(String query) {
+    public List<QueryToken> parse(String query) {
         Scanner scanner = new Scanner(query);
         String currentArg;
         while (scanner.hasNext()) {
-            currentArg = scanner.next();
-            QueryToken currentToken = queryTokenValue.getTokenType(currentArg);
+            currentArg = scanner.next().toLowerCase();
+            QueryTokenType currentToken = queryTokenValue.getTokenType(currentArg);
             if (currentToken != null) {
-                Token token = Token.builder().type(currentToken).build();
+                QueryToken token = QueryToken.builder().type(currentToken).build();
                 tokens.add(token);
             } else { //TODO do poprawy mechanizm varName...
                 for (int i = 0; i < currentArg.length(); i++) {
                     char currentChar = currentArg.charAt(i);
-                    QueryToken queryToken = queryTokenValue.getTokenType(String.valueOf(currentChar));
-                    addIfExists(queryToken);
+                    QueryTokenType queryTokenType = queryTokenValue.getTokenType(String.valueOf(currentChar));
+                    addIfExists(queryTokenType);
                     if (QueryUtils.isDigit(currentChar)) {
                         String number = String.valueOf(currentChar);
-                        while (isDigit(currentArg.charAt(i + 1))) {
+                        while (QueryUtils.isDigit(currentArg.charAt(i + 1))) {
                             number += currentArg.charAt(i + 1);
                             i++;
                         }
                         int valueNumber = Integer.parseInt(number);
-                        Token token = Token.builder().type(QueryToken.NUMBER).value(valueNumber).build();
+                        QueryToken token = QueryToken.builder().type(QueryTokenType.NUMBER).value(valueNumber).build();
                         tokens.add(token);
                     }
                     if (QueryUtils.isAlpha(currentChar)) {
@@ -46,7 +47,7 @@ public class QueryReader implements Reader<Token<QueryToken>> {
                             letter += currentArg.charAt(i + 1);
                             i++;
                         }
-                        Token token = Token.builder().type(QueryToken.LEXEME).lexeme(letter).build();
+                        QueryToken token = QueryToken.builder().type(QueryTokenType.LEXEME).lexeme(letter).build();
                         tokens.add(token);
                     }
                 }
@@ -59,19 +60,11 @@ public class QueryReader implements Reader<Token<QueryToken>> {
         return tokens;
     }
 
-    private void addIfExists(QueryToken queryToken) {
-        if (queryToken != null) {
-            Token token = Token.builder().type(queryToken).build();
+    private void addIfExists(QueryTokenType queryTokenType) {
+        if (queryTokenType != null) {
+            QueryToken token = QueryToken.builder().type(queryTokenType).build();
             tokens.add(token);
         }
-    }
-
-    private boolean isDigit(char c) {
-        return c >= '0' && c <= '9';
-    }
-
-    private boolean isAlpha(char c) {
-        return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
     }
 
 

@@ -1,4 +1,4 @@
-package ats.v1.common;
+package ats.v1.spa_frontend.token;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @Builder
 @RequiredArgsConstructor
-public class Token<TYPE> {
+public class Token {
 
-    final TYPE type;
+    final TokenType type;
     final String lexeme;
     final int value;
     final int line;

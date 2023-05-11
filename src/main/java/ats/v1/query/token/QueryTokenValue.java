@@ -5,35 +5,37 @@ import java.util.Map;
 
 public class QueryTokenValue {
 
-    private final Map<String, QueryToken> values = new HashMap<>();
+    private final Map<String, QueryTokenType> values = new HashMap<>();
 
     public QueryTokenValue() {
         initValues();
     }
 
     private void initValues() {
-        values.put("Select", QueryToken.SELECT);
-        values.put("such", QueryToken.SUCH);
-        values.put("that", QueryToken.THAT);
-        values.put("Follows", QueryToken.FOLLOWS);
-        values.put("Follows*", QueryToken.FOLLOWS_PLUS);
-        values.put("Parent", QueryToken.PARENT);
-        values.put("Parent*", QueryToken.PARENT_PLUS);
-        values.put("Modifies", QueryToken.MODIFIES);
-        values.put("with", QueryToken.WITH);
-        values.put(".", QueryToken.DOT);
-        values.put(",", QueryToken.COMMA);
-        values.put("”", QueryToken.QUOTATION);
-        values.put("varName", QueryToken.VARNAME);
-        values.put("stmt", QueryToken.STMT);
-        values.put("=", QueryToken.EQUALS);
-        values.put("(", QueryToken.LEFT_PAREN);
-        values.put(")", QueryToken.RIGHT_PAREN);
-        values.put("and", QueryToken.AND);
+        values.put("select", QueryTokenType.SELECT);
+        values.put("such", QueryTokenType.SUCH);
+        values.put("that", QueryTokenType.THAT);
+        values.put("follows", QueryTokenType.FOLLOWS);
+        values.put("follows*", QueryTokenType.FOLLOWS_PLUS);
+        values.put("parent", QueryTokenType.PARENT);
+        values.put("parent*", QueryTokenType.PARENT_PLUS);
+        values.put("modifies", QueryTokenType.MODIFIES);
+        values.put("with", QueryTokenType.WITH);
+        values.put(".", QueryTokenType.DOT);
+        values.put(",", QueryTokenType.COMMA);
+        values.put("”", QueryTokenType.QUOTATION);
+        values.put("varName", QueryTokenType.VARNAME);
+        values.put("stmt", QueryTokenType.STMT);
+        values.put("=", QueryTokenType.EQUALS);
+        values.put("(", QueryTokenType.LEFT_PAREN);
+        values.put(")", QueryTokenType.RIGHT_PAREN);
+        values.put("and", QueryTokenType.AND);
+        values.put("\n", QueryTokenType.EOL);
+        values.put("\r\n", QueryTokenType.EOL);
+        values.put(";", QueryTokenType.SEMICOLON);
     }
 
-
-    public QueryToken getTokenType(final String value) {
+    public QueryTokenType getTokenType(final String value) {
         return values.get(value);
     }
 }

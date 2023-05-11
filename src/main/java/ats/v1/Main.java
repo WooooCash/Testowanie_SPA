@@ -1,6 +1,6 @@
 package ats.v1;
 
-import ats.v1.common.Token;
+import ats.v1.spa_frontend.token.Token;
 import ats.v1.spa_frontend.scanner.Scanner;
 import ats.v1.spa_frontend.token.TokenType;
 import lombok.extern.slf4j.Slf4j;
@@ -21,17 +21,17 @@ public class Main {
         }
     }
 
-    private static void processFile(String path) throws IOException {
+    private static void processFile(final String path) throws IOException {
         byte[] bytes = Files.readAllBytes(Paths.get(path));
         process(new String(bytes, Charset.defaultCharset()));
     }
 
-    private static void process(String programSource) {
+    private static void process(final String programSource) {
         // Scan
         Scanner scanner = new Scanner(programSource);
-        List<Token<TokenType>> tokens = scanner.scanTokens();
+        List<Token> tokens = scanner.scanTokens();
         System.out.printf("%2s %11s %9s %2s\n", "LN", "TYPE", "TEXT", "VAL"); //todo zamienić na log/throw
-        for (Token<TokenType> t : tokens) System.out.println(t);
+        for (Token t : tokens) System.out.println(t);
         // Parse
     }
 }
