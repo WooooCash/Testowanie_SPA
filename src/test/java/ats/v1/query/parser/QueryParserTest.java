@@ -29,6 +29,11 @@ class QueryParserTest {
         assertThat(tokens.get(8).getType()).isEqualTo(QueryTokenType.LEXEME);
         assertThat(tokens.get(8).getLexeme()).isEqualTo("s2");
         assertThat(tokens.get(9).getType()).isEqualTo(QueryTokenType.RIGHT_PAREN);
+        System.out.println(query);
+        for (QueryToken token : tokens) {
+            System.out.println(token);
+        }
+        System.out.println();
     }
 
     @Test
@@ -50,6 +55,11 @@ class QueryParserTest {
         assertThat(tokens.get(8).getType()).isEqualTo(QueryTokenType.LEXEME);
         assertThat(tokens.get(8).getLexeme()).isEqualTo("a");
         assertThat(tokens.get(9).getType()).isEqualTo(QueryTokenType.RIGHT_PAREN);
+        System.out.println(query);
+        for (QueryToken token : tokens) {
+            System.out.println(token);
+        }
+        System.out.println();
     }
 
     @Test
@@ -59,6 +69,11 @@ class QueryParserTest {
         List<QueryToken> tokens = reader.parse(query);
         assertThat(tokens).isNotNull();
         assertThat(tokens).hasSize(18);
+        System.out.println(query);
+        for (QueryToken token : tokens) {
+            System.out.println(token);
+        }
+        System.out.println();
     }
 
 }

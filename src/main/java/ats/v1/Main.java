@@ -2,19 +2,17 @@ package ats.v1;
 
 import ats.v1.pkb.Parser;
 import ats.v1.pkb.ast.Ast;
-import ats.v1.pkb.ast.nodes.Node;
 import ats.v1.pkb.proc_table.ProcTable;
 import ats.v1.pkb.proc_table.ProcTableImpl;
 import ats.v1.pkb.var_table.VarTable;
 import ats.v1.pkb.var_table.VarTableImpl;
+import ats.v1.query.parser.QueryParser;
+import ats.v1.query.token.QueryToken;
 import ats.v1.spa_frontend.token.Token;
 import ats.v1.spa_frontend.scanner.Scanner;
-import ats.v1.spa_frontend.token.TokenType;
-import lombok.extern.slf4j.Slf4j;
 
-import java.io.BufferedReader;
+import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -28,11 +26,28 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        InputStreamReader reader = new InputStreamReader(System.in);
-        BufferedReader bufferedReader = new BufferedReader(reader);
-        bufferedReader.read();
-        System.out.println("FALSE");
-//        System.out.println("Ready");
+        System.out.println("Ready");
+
+        java.util.Scanner sc = new java.util.Scanner(System.in);
+        QueryParser reader = new QueryParser();
+        List<QueryToken> tokens = null;
+        while (sc.hasNextLine()) {
+            //Waiting for input in first and second line
+            String firstLine = sc.nextLine();
+            String secondLine = sc.nextLine();
+            if ((firstLine + secondLine).length() == 0) break;
+            //Creating tokens
+            tokens = reader.parse(firstLine + secondLine);
+            //Printing out tokens
+            System.out.println();
+            System.out.println(firstLine);
+            System.out.println(secondLine);
+            for (QueryToken token : tokens) {
+                System.out.println(token);
+            }
+            System.out.println();
+            tokens.clear();
+        }
     }
 
     private static void processFile(final String path) throws IOException {

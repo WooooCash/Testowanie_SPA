@@ -22,6 +22,7 @@ public enum QueryTokenType {
     RIGHT_PAREN,
     COMMA,
     EOL,
-    SEMICOLON
-
+    SEMICOLON,
+    ASSIGN,
+    WHILE
 }
