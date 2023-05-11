@@ -1,4 +1,4 @@
-package ats.v1.pkb.ast;
+package ats.v1.pkb.ast.nodes;
 
 public enum NodeType {
     PROCEDURE,
