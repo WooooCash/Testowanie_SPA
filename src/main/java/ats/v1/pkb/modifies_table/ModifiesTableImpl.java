@@ -26,6 +26,12 @@ public class ModifiesTableImpl implements ModifiesTable {
             statementList.add(statementLineNr);
     }
 
+    @Override
+    public void setModifies(int statementLineNr, List<Integer> varIndices) {
+        for (int varIdx : varIndices)
+            setModifies(statementLineNr, varIdx);
+    }
+
     /**
      * Returns a list of variable modified by the provided statement (assignments have one, while/procedure have multiple).
      *

@@ -1,13 +1,12 @@
 package ats.v1.pkb.design_extractor;
 
 import ats.v1.pkb.ast.Ast;
-import ats.v1.pkb.ast.nodes.AssignNode;
-import ats.v1.pkb.ast.nodes.Node;
-import ats.v1.pkb.ast.nodes.StatementNode;
-import ats.v1.pkb.ast.nodes.VarNode;
+import ats.v1.pkb.ast.nodes.*;
 import ats.v1.pkb.uses_table.UsesTable;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @AllArgsConstructor
 public class UsesExtractor implements Extractor {
@@ -24,6 +23,8 @@ public class UsesExtractor implements Extractor {
         StatementNode statement = (StatementNode)node;
         Node rightSide = ast.getNthChild(statement, 2);
         traverse(rightSide, statement.getLine());
+
+        updateParents(statement.getParent(), utable.getUsed(statement.getLine()));
     }
 
     private void traverse(Node node, int lineNr) {
@@ -35,5 +36,13 @@ public class UsesExtractor implements Extractor {
 
         for (Node child : node.getChildren())
             traverse(child, lineNr);
+    }
+
+    private void updateParents(Node parent, List<Integer> varIndices) {
+        if (parent == null) return;
+        if (!(parent instanceof WhileNode)) return;
+        StatementNode statement = (WhileNode) parent;
+        utable.setUses(statement.getLine(), varIndices);
+        updateParents(statement.getParent(), varIndices);
     }
 }

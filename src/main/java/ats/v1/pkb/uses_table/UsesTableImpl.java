@@ -26,6 +26,12 @@ public class UsesTableImpl implements UsesTable {
             statementList.add(statementLineNr);
     }
 
+    @Override
+    public void setUses(int statementLineNr, List<Integer> varIndices) {
+        for (int varIdx : varIndices)
+            setUses(statementLineNr, varIdx);
+    }
+
     /**
      * Returns a list of variable used by the provided statement.
      *
