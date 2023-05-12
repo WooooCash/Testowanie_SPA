@@ -10,6 +10,7 @@ import java.util.List;
 
 @AllArgsConstructor
 public class QueryCompositor {
+    /*
 
     private final List<QueryToken> tokens;
 
@@ -26,4 +27,6 @@ public class QueryCompositor {
     }
 
     private boolean hasMore()
+    */
+
 }

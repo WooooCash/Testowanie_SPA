@@ -8,6 +8,7 @@ import ats.v1.pkb.var_table.VarTable;
 import ats.v1.pkb.var_table.VarTableImpl;
 import ats.v1.query.parser.QueryParser;
 import ats.v1.query.token.QueryToken;
+import ats.v1.query.token.QueryTokenTableWriter;
 import ats.v1.spa_frontend.token.Token;
 import ats.v1.spa_frontend.scanner.Scanner;
 
@@ -31,6 +32,7 @@ public class Main {
         java.util.Scanner sc = new java.util.Scanner(System.in);
         QueryParser reader = new QueryParser();
         List<QueryToken> tokens = null;
+        QueryTokenTableWriter queryTokenTableWriter = new QueryTokenTableWriter();
         while (sc.hasNextLine()) {
             //Waiting for input in first and second line
             String firstLine = sc.nextLine();
@@ -42,10 +44,7 @@ public class Main {
             System.out.println();
             System.out.println(firstLine);
             System.out.println(secondLine);
-            for (QueryToken token : tokens) {
-                System.out.println(token);
-            }
-            System.out.println();
+            System.out.println(queryTokenTableWriter.writeQueryTokenTable(tokens));
             tokens.clear();
         }
     }
