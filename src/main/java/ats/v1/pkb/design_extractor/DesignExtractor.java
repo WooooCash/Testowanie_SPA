@@ -4,14 +4,11 @@ import ats.v1.pkb.ast.Ast;
 import ats.v1.pkb.ast.nodes.Node;
 import ats.v1.pkb.modifies_table.ModifiesTable;
 import ats.v1.pkb.uses_table.UsesTable;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class DesignExtractor {
-    private Ast ast;
-
-
-    public DesignExtractor(Ast ast) {
-        this.ast = ast;
-    }
+    private final Ast ast;
 
     public void extractModifies(ModifiesTable mtable) {
         traverse(ast.getRoot(), new ModifiesExtractor(ast, mtable));

@@ -59,9 +59,9 @@ public class Main {
         UsesTable usesTable = new UsesTableImpl();
         Parser parser = new Parser(tokens, varTable, procTable);
         Ast ast = parser.parseTokens();
-        DesignExtractor de = new DesignExtractor(ast);
-        de.extractModifies(modifiesTable);
-        de.extractUses(usesTable);
+        DesignExtractor extractor = new DesignExtractor(ast);
+        extractor.extractModifies(modifiesTable);
+        extractor.extractUses(usesTable);
         System.out.println(ast.getRoot().toString());
         System.out.println(procTable);
         System.out.println(varTable);

@@ -28,7 +28,9 @@ public class UsesExtractor implements Extractor {
     }
 
     private void traverse(Node node, int lineNr) {
-        if (node == null) return;
+        if (node == null) {
+            return;
+        }
         if (node instanceof VarNode) {
             VarNode var = (VarNode)node;
             utable.setUses(lineNr, var.getVarIdx());
@@ -39,7 +41,9 @@ public class UsesExtractor implements Extractor {
     }
 
     private void updateParents(Node parent, List<Integer> varIndices) {
-        if (parent == null) return;
+        if (parent == null) {
+            return;
+        }
         if (!(parent instanceof WhileNode)) return;
         StatementNode statement = (WhileNode) parent;
         utable.setUses(statement.getLine(), varIndices);

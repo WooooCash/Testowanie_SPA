@@ -28,8 +28,9 @@ public class ModifiesTableImpl implements ModifiesTable {
 
     @Override
     public void setModifies(int statementLineNr, List<Integer> varIndices) {
-        for (int varIdx : varIndices)
+        for (int varIdx : varIndices) {
             setModifies(statementLineNr, varIdx);
+        }
     }
 
     /**
