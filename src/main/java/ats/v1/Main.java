@@ -2,8 +2,13 @@ package ats.v1;
 
 import ats.v1.pkb.Parser;
 import ats.v1.pkb.ast.Ast;
+import ats.v1.pkb.design_extractor.DesignExtractor;
+import ats.v1.pkb.modifies_table.ModifiesTable;
+import ats.v1.pkb.modifies_table.ModifiesTableImpl;
 import ats.v1.pkb.proc_table.ProcTable;
 import ats.v1.pkb.proc_table.ProcTableImpl;
+import ats.v1.pkb.uses_table.UsesTable;
+import ats.v1.pkb.uses_table.UsesTableImpl;
 import ats.v1.pkb.var_table.VarTable;
 import ats.v1.pkb.var_table.VarTableImpl;
 import ats.v1.spa_frontend.scanner.Scanner;
@@ -50,11 +55,18 @@ public class Main {
         // Parse
         VarTable varTable = new VarTableImpl();
         ProcTable procTable = new ProcTableImpl();
+        ModifiesTable modifiesTable = new ModifiesTableImpl();
+        UsesTable usesTable = new UsesTableImpl();
         Parser parser = new Parser(tokens, varTable, procTable);
         Ast ast = parser.parseTokens();
+        DesignExtractor extractor = new DesignExtractor(ast);
+        extractor.extractModifies(modifiesTable);
+        extractor.extractUses(usesTable);
         System.out.println(ast.getRoot().toString());
         System.out.println(procTable);
         System.out.println(varTable);
+        System.out.println(modifiesTable);
+        System.out.println(usesTable);
 
 
     }

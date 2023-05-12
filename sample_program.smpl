@@ -1,8 +1,10 @@
 procedure First {
     x = 2;
     y = x + 1;
+    z = 0;
     while x {
-        x = x + 1; }
+        x = x + y + 1;
+        y = z + 3; }
     y = &32;
     z = y + 4; }
 

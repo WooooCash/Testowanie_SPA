@@ -26,6 +26,13 @@ public class UsesTableImpl implements UsesTable {
             statementList.add(statementLineNr);
     }
 
+    @Override
+    public void setUses(int statementLineNr, List<Integer> varIndices) {
+        for (int varIdx : varIndices) {
+            setUses(statementLineNr, varIdx);
+        }
+    }
+
     /**
      * Returns a list of variable used by the provided statement.
      *
@@ -71,5 +78,20 @@ public class UsesTableImpl implements UsesTable {
             map.put(key, new ArrayList<>());
 
         return map.get(key);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder tableStr = new StringBuilder("USES TABLE\n");
+        tableStr.append("__________________________\n");
+        tableStr.append(String.format("| %10s | %8s \n", "STATEMENT", "VARS"));
+        for (int statementLine : used.keySet()) {
+            StringBuilder vars = new StringBuilder();
+            for (int varIdx : used.get(statementLine))
+                vars.append(varIdx + ", ");
+            tableStr.append(String.format("| %10d | %8s \n", statementLine, vars.toString()));
+        }
+        tableStr.append("--------------------------\n");
+        return tableStr.toString();
     }
 }

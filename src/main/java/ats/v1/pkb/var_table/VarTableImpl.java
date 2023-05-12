@@ -9,7 +9,7 @@ public class VarTableImpl implements VarTable {
     @Override
     public int insert(String name) {
         if (table.contains(name))
-            return -1;
+            return table.indexOf(name);
 
         table.add(name);
         return table.indexOf(name);
