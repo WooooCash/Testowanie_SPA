@@ -33,7 +33,7 @@ public class QueryParser implements Parser<QueryToken> {
                     addIfExists(queryTokenType);
                     if (QueryUtils.isDigit(currentChar)) {
                         String number = String.valueOf(currentChar);
-                        while (QueryUtils.isDigit(currentArg.charAt(i + 1))) {
+                        while (currentArg.length() > i + 1 && QueryUtils.isDigit(currentArg.charAt(i + 1))) {
                             number += currentArg.charAt(i + 1);
                             i++;
                         }

@@ -28,7 +28,7 @@ public class Main {
             e.printStackTrace();
         }
         System.out.println("Ready");
-
+        //TODO Print only answer after Ready (one line) - otherwise PipeTester don't know what is going on
         java.util.Scanner sc = new java.util.Scanner(System.in);
         QueryParser reader = new QueryParser();
         List<QueryToken> tokens = null;

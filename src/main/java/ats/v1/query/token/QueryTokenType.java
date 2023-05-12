@@ -24,5 +24,7 @@ public enum QueryTokenType {
     EOL,
     SEMICOLON,
     ASSIGN,
-    WHILE
+    WHILE,
+    UNDERSCORE,
+    HASH
 }

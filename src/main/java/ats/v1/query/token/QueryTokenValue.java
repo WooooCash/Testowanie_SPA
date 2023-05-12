@@ -33,6 +33,8 @@ public class QueryTokenValue {
         values.put("\n", QueryTokenType.EOL);
         values.put("\r\n", QueryTokenType.EOL);
         values.put(";", QueryTokenType.SEMICOLON);
+        values.put("_", QueryTokenType.UNDERSCORE);
+        values.put("#", QueryTokenType.HASH);
     }
 
     public QueryTokenType getTokenType(final String value) {
