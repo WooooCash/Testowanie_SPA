@@ -3,7 +3,9 @@ package ats.v1.pkb;
 import ats.v1.pkb.ast.Ast;
 import ats.v1.pkb.ast.AstImpl;
 import ats.v1.pkb.ast.nodes.*;
+import ats.v1.pkb.design_extractor.StatementType;
 import ats.v1.pkb.proc_table.ProcTable;
+import ats.v1.pkb.statement_table.StatementTable;
 import ats.v1.pkb.var_table.VarTable;
 import ats.v1.spa_frontend.token.Token;
 import ats.v1.spa_frontend.token.TokenType;
@@ -17,12 +19,14 @@ public class Parser {
     private Ast ast;
     private VarTable varTable;
     private ProcTable procTable;
+    private StatementTable statTable;
 
 
-    public Parser(List<Token> tokens, VarTable varTable, ProcTable procTable) {
+    public Parser(List<Token> tokens, VarTable varTable, ProcTable procTable, StatementTable statTable) {
         this.tokens = tokens;
         this.varTable = varTable;
         this.procTable = procTable;
+        this.statTable = statTable;
     }
 
     public Ast parseTokens() {
@@ -42,7 +46,6 @@ public class Parser {
             ast.addChild(programNode, procedure());
             nextType = lookAhead();
         }
-
     }
 
     private Node procedure() throws WrongTokenException {
@@ -100,6 +103,8 @@ public class Parser {
         int conditionVarIdx = varTable.insert(condition.getLexeme());
         ast.setChildren(whileNode, statementList);
         ast.setFirstChild(whileNode, new VarNode(conditionVarIdx));
+
+        statTable.addStatement(whileNode.getLine(), StatementType.WHILE);
         return whileNode;
     }
 
@@ -113,6 +118,8 @@ public class Parser {
         int leftVarIdx = varTable.insert(leftVar.getLexeme());
         ast.setFirstChild(assign, new VarNode(leftVarIdx));
         ast.addChild(assign, expression);
+
+        statTable.addStatement(assign.getLine(), StatementType.ASSIGN);
         return assign;
     }
 

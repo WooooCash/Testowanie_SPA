@@ -7,6 +7,8 @@ import ats.v1.pkb.modifies_table.ModifiesTable;
 import ats.v1.pkb.modifies_table.ModifiesTableImpl;
 import ats.v1.pkb.proc_table.ProcTable;
 import ats.v1.pkb.proc_table.ProcTableImpl;
+import ats.v1.pkb.statement_table.StatementTable;
+import ats.v1.pkb.statement_table.StatementTableImpl;
 import ats.v1.pkb.uses_table.UsesTable;
 import ats.v1.pkb.uses_table.UsesTableImpl;
 import ats.v1.pkb.var_table.VarTable;
@@ -57,7 +59,8 @@ public class Main {
         ProcTable procTable = new ProcTableImpl();
         ModifiesTable modifiesTable = new ModifiesTableImpl();
         UsesTable usesTable = new UsesTableImpl();
-        Parser parser = new Parser(tokens, varTable, procTable);
+        StatementTable statTable = new StatementTableImpl();
+        Parser parser = new Parser(tokens, varTable, procTable, statTable);
         Ast ast = parser.parseTokens();
         DesignExtractor extractor = new DesignExtractor(ast);
         extractor.extractModifies(modifiesTable);
