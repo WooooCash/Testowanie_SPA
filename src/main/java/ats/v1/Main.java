@@ -13,6 +13,7 @@ import ats.v1.pkb.var_table.VarTable;
 import ats.v1.pkb.var_table.VarTableImpl;
 import ats.v1.spa_frontend.scanner.Scanner;
 import ats.v1.spa_frontend.token.Token;
+import ats.v1.utils.QueryProcessorMock;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -23,6 +24,8 @@ import java.util.List;
 
 @Slf4j
 public class Main {
+
+    private static final QueryProcessorMock queryProcessor = new QueryProcessorMock();
     public static void main(String[] args) {
         log.info("Test");
         try {
@@ -36,8 +39,11 @@ public class Main {
         while (sc.hasNextLine()) {
             String declaration = sc.nextLine();
             String queryString = sc.nextLine();
-            if (queryString.length() == 0) break;
-            System.out.println("FALSE " + declaration + " " + queryString);
+            if (queryString.length() == 0){
+                break;
+            }
+            String result = queryProcessor.process(queryString, declaration);
+            System.out.println(result);
         }
 
 
