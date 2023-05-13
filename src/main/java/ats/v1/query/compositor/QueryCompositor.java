@@ -13,14 +13,20 @@ import java.util.List;
 @AllArgsConstructor
 public class QueryCompositor {
 
+    private static final List<QueryTokenType> essentialTypes
+            = List.of(QueryTokenType.SELECT,
+            QueryTokenType.SUCH,
+            QueryTokenType.THAT,
+            QueryTokenType.WITH,
+            QueryTokenType.PARENT
+    );
+    private static final List<QueryTokenType> modifiesTypes   //TODO nazwa...
+            = List.of(QueryTokenType.MODIFIES, QueryTokenType.FOLLOWS, QueryTokenType.FOLLOWS_PLUS //todo reszta
+    );
     private final List<QueryToken> tokens;
-
     private Query query = new Query();
-
     private QueryTokenType currentProcessedToken = null;
-
     private List<QueryToken> currentTokens = new ArrayList<>();
-
     private boolean isEndOfEssentialType = false;
 
     public Query composite(final List<QueryToken> tokens) {
@@ -28,14 +34,14 @@ public class QueryCompositor {
             throw new QueryException("Tokens list is empty.");
         }
         for (QueryToken queryToken : tokens) {
-            if(essentialTypes().contains(queryToken.getType()) && currentProcessedToken == null) {
+            if (essentialTypes.contains(queryToken.getType()) && currentProcessedToken == null) {
                 currentProcessedToken = queryToken.getType();
                 isEndOfEssentialType = false;
             }
-            if(currentProcessedToken != null && !isEndOfEssentialType && !essentialTypes().contains(queryToken.getType())) {
+            if (currentProcessedToken != null && !isEndOfEssentialType && !essentialTypes.contains(queryToken.getType())) {
                 currentTokens.add(queryToken);
             }
-            if(currentProcessedToken != null && !isEndOfEssentialType && essentialTypes().contains(queryToken.getType())) {
+            if (currentProcessedToken != null && !isEndOfEssentialType && essentialTypes.contains(queryToken.getType())) {
                 isEndOfEssentialType = true;
                 makePart();
                 clean();
@@ -43,22 +49,6 @@ public class QueryCompositor {
             }
         }
         return query;
-    }
-
-
-    private List<QueryTokenType> essentialTypes() {
-        return List.of(QueryTokenType.SELECT,
-                QueryTokenType.SUCH,
-                QueryTokenType.THAT,
-                QueryTokenType.WITH,
-                QueryTokenType.PARENT);
-    }
-
-    private List<QueryTokenType> modifiesTypes() { //TODO nazwa...
-        return List.of(QueryTokenType.MODIFIES,
-                QueryTokenType.FOLLOWS,
-                QueryTokenType.FOLLOWS_PLUS //todo reszta
-                );
     }
 
     private void makePart() {
@@ -69,40 +59,39 @@ public class QueryCompositor {
             case SUCH:
                 break;
             case THAT:
-                makeThat();
-
+                makeSuchThat();
         }
     }
 
     private void makeSelect() {
-        if(currentTokens.size() == 1) { //TODO na razie tylko jeden może być, później dodać resztę warunków
+        if (currentTokens.size() == 1) { //TODO na razie tylko jeden może być, później dodać resztę warunków
             QueryTokenType type = currentTokens.get(0).getType();
-            if(type.equals(QueryTokenType.NUMBER)) {
+            if (type.equals(QueryTokenType.NUMBER)) {
                 query.setResult(QueryNode.builder().name(String.valueOf(currentTokens.get(0).getValue())).build());
             }
-            if(type.equals(QueryTokenType.LEXEME)) {
+            if (type.equals(QueryTokenType.LEXEME)) {
                 query.setResult(QueryNode.builder().name(String.valueOf(currentTokens.get(0).getLexeme())).build());
             }
         }
     }
 
-    private void makeThat() {
+    private void makeSuchThat() {
         QueryToken firstToken = currentTokens.get(0);
         List<QueryNode> args = new ArrayList<>();
-        if(modifiesTypes().contains(firstToken.getType())) {
+        if (modifiesTypes.contains(firstToken.getType())) {
             throw new QueryException("Bad type in such that");
         }
-        for(int i = 1; i < currentTokens.size(); i++) {
-            if(currentTokens.get(i).getType().equals(QueryTokenType.LEFT_PAREN)) {
+        for (int i = 1; i < currentTokens.size(); i++) {
+            if (currentTokens.get(i).getType().equals(QueryTokenType.LEFT_PAREN)) {
                 i++;
-                while(!currentTokens.get(i).getType().equals(QueryTokenType.RIGHT_PAREN)) {
-                    if(currentTokens.get(i).getType().equals(QueryTokenType.COMMA)) {
+                while (!currentTokens.get(i).getType().equals(QueryTokenType.RIGHT_PAREN)) {
+                    if (currentTokens.get(i).getType().equals(QueryTokenType.COMMA)) {
                         continue;
                     }
-                    if(currentTokens.get(i).getType().equals(QueryTokenType.NUMBER)) {
+                    if (currentTokens.get(i).getType().equals(QueryTokenType.NUMBER)) {
                         args.add(QueryNode.builder().name(String.valueOf(currentTokens.get(i).getValue())).build());
                     }
-                    if(currentTokens.get(i).getType().equals(QueryTokenType.LEXEME)) {
+                    if (currentTokens.get(i).getType().equals(QueryTokenType.LEXEME)) {
                         args.add(QueryNode.builder().name(currentTokens.get(i).getLexeme()).build());
                     }
                 }
@@ -115,4 +104,5 @@ public class QueryCompositor {
         currentTokens.clear();
         isEndOfEssentialType = false;
     }
+
 }

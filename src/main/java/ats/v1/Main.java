@@ -11,13 +11,8 @@ import ats.v1.pkb.uses_table.UsesTable;
 import ats.v1.pkb.uses_table.UsesTableImpl;
 import ats.v1.pkb.var_table.VarTable;
 import ats.v1.pkb.var_table.VarTableImpl;
-import ats.v1.query.parser.QueryParser;
-import ats.v1.query.token.QueryToken;
-import ats.v1.query.token.QueryTokenTableWriter;
-import ats.v1.spa_frontend.token.Token;
 import ats.v1.spa_frontend.scanner.Scanner;
 import ats.v1.spa_frontend.token.Token;
-
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
