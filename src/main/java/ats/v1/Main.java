@@ -1,5 +1,6 @@
 package ats.v1;
 
+import ats.v1.pkb.PKB;
 import ats.v1.pkb.Parser;
 import ats.v1.pkb.ast.Ast;
 import ats.v1.pkb.design_extractor.DesignExtractor;
@@ -65,6 +66,7 @@ public class Main {
         DesignExtractor extractor = new DesignExtractor(ast);
         extractor.extractModifies(modifiesTable);
         extractor.extractUses(usesTable);
+        PKB pkb = new PKB(modifiesTable, usesTable, varTable, statTable);
         System.out.println(ast.getRoot().toString());
         System.out.println(procTable);
         System.out.println(varTable);

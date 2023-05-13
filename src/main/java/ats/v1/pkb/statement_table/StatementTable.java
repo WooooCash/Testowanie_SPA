@@ -1,8 +1,11 @@
 package ats.v1.pkb.statement_table;
 
-import ats.v1.pkb.design_extractor.StatementType;
+import ats.v1.pkb.ast.nodes.StatementNode;
+
+import java.util.List;
 
 public interface StatementTable {
-    void addStatement(int lineNr, StatementType type);
-    StatementType getStatementType(int lineNr);
+    void addStatement(StatementNode type);
+    StatementNode getStatement(int lineNr);
+    List<StatementNode> getStatements();
 }
