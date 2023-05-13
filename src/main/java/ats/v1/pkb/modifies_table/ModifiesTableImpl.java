@@ -26,6 +26,13 @@ public class ModifiesTableImpl implements ModifiesTable {
             statementList.add(statementLineNr);
     }
 
+    @Override
+    public void setModifies(int statementLineNr, List<Integer> varIndices) {
+        for (int varIdx : varIndices) {
+            setModifies(statementLineNr, varIdx);
+        }
+    }
+
     /**
      * Returns a list of variable modified by the provided statement (assignments have one, while/procedure have multiple).
      *
@@ -71,5 +78,20 @@ public class ModifiesTableImpl implements ModifiesTable {
             map.put(key, new ArrayList<>());
 
         return map.get(key);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder tableStr = new StringBuilder("MODIFIES TABLE\n");
+        tableStr.append("__________________________\n");
+        tableStr.append(String.format("| %10s | %8s \n", "STATEMENT", "VARS"));
+        for (int statementLine : modified.keySet()) {
+            StringBuilder vars = new StringBuilder();
+            for (int varIdx : modified.get(statementLine))
+                vars.append(varIdx + ", ");
+            tableStr.append(String.format("| %10d | %8s \n", statementLine, vars.toString()));
+        }
+        tableStr.append("--------------------------\n");
+        return tableStr.toString();
     }
 }

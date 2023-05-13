@@ -10,7 +10,6 @@ import ats.v1.spa_frontend.token.TokenType;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class Parser {
     private final List<Token> tokens;
     private int index = 0;
@@ -62,13 +61,16 @@ public class Parser {
     private List<Node> statementList() throws WrongTokenException {
         List<Node> statementList = new ArrayList<>();
         TokenType nextType = lookAhead();
-        // TODO: set follows relationship in statement list
-        // Stworzyć w AST metode setFollows(current, followed)
-        // Pomijając pierwszy statement w statement list, dla każdej przypisać setFollows(statement, statementList.get(index-1))
-        while(nextType != TokenType.RIGHT_BRACE && nextType != TokenType.EOF) {
+        StatementNode previous = null;
+
+        while (nextType != TokenType.RIGHT_BRACE && nextType != TokenType.EOF) {
             StatementNode statement = statement();
+            if (previous != null) {
+                statement.setFollows(previous);
+            }
             statementList.add(statement);
             nextType = lookAhead();
+            previous = statement;
         }
 
         return statementList;
@@ -76,7 +78,7 @@ public class Parser {
 
     private StatementNode statement() throws WrongTokenException {
         Token next = tokens.get(index);
-        switch(next.getType()) {
+        switch (next.getType()) {
             case WHILE:
                 return getWhile();
             case IDENTIFIER:
@@ -130,7 +132,7 @@ public class Parser {
 
     private Node getFactor() throws WrongTokenException {
         Token factor = checkNextToken(TokenType.NUMBER, TokenType.IDENTIFIER);
-        switch(factor.getType()) {
+        switch (factor.getType()) {
             case NUMBER:
                 return new ConstNode(factor.getValue());
             case IDENTIFIER:
@@ -162,7 +164,7 @@ public class Parser {
 }
 
 class WrongTokenException extends Exception {
-    public WrongTokenException(String msg){
+    public WrongTokenException(String msg) {
         super(msg);
     }
 }

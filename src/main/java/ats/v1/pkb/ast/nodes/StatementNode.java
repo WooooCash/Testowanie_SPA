@@ -1,5 +1,8 @@
 package ats.v1.pkb.ast.nodes;
 
+import lombok.Getter;
+
+@Getter
 public class StatementNode extends Node {
     private int line;
 
