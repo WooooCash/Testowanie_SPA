@@ -67,8 +67,8 @@ public class Main {
         extractor.extractModifies(modifiesTable);
         extractor.extractUses(usesTable);
         PKB pkb = new PKB(modifiesTable, usesTable, varTable, statTable);
-        System.out.println(ast.getRoot().toString());
-        System.out.println(procTable);
+        System.out.println(ast.getRoot().toString()); //TODO WEDŁUG MNIE DO TEGO POWINIEN BYĆ JAKIŚ TEST ZROBIONY
+        System.out.println(procTable);              // EWENTUALNIE DODANE COŚ NA ZASADZIE FEATURE TOGGLA
         System.out.println(varTable);
         System.out.println(modifiesTable);
         System.out.println(usesTable);
