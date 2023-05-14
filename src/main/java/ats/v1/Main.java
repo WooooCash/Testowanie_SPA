@@ -42,7 +42,6 @@ public class Main {
             System.out.println("FALSE " + declaration + " " + queryString);
         }
 
-
     }
 
     private static void processFile(String path) throws IOException {
@@ -65,12 +64,10 @@ public class Main {
         DesignExtractor extractor = new DesignExtractor(ast);
         extractor.extractModifies(modifiesTable);
         extractor.extractUses(usesTable);
-        System.out.println(ast.getRoot().toString());
-        System.out.println(procTable);
+        System.out.println(ast.getRoot().toString()); //TODO WEDŁUG MNIE DO TEGO POWINIEN BYĆ JAKIŚ TEST ZROBIONY
+        System.out.println(procTable);              // EWENTUALNIE DODANE COŚ NA ZASADZIE FEATURE TOGGLA
         System.out.println(varTable);
         System.out.println(modifiesTable);
         System.out.println(usesTable);
-
-
     }
 }

@@ -2,10 +2,11 @@ package ats.v1.pkb.statement_table;
 
 import ats.v1.pkb.design_extractor.StatementType;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class StatementTableImpl implements StatementTable {
-    private Map<Integer, StatementType> statements;
+    private final Map<Integer, StatementType> statements = new HashMap<>();
 
     @Override
     public void addStatement(int lineNr, StatementType type) {

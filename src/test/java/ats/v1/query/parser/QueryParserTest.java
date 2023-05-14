@@ -1,7 +1,6 @@
 package ats.v1.query.parser;
 
 import ats.v1.query.token.QueryToken;
-import ats.v1.query.token.QueryTokenTableWriter;
 import ats.v1.query.token.QueryTokenType;
 import org.junit.jupiter.api.Test;
 
@@ -30,11 +29,6 @@ class QueryParserTest {
         assertThat(tokens.get(8).getType()).isEqualTo(QueryTokenType.LEXEME);
         assertThat(tokens.get(8).getLexeme()).isEqualTo("s2");
         assertThat(tokens.get(9).getType()).isEqualTo(QueryTokenType.RIGHT_PAREN);
-        QueryTokenTableWriter queryTokenTableWriter = new QueryTokenTableWriter();
-        System.out.println();
-        System.out.println(query);
-        System.out.println(queryTokenTableWriter.writeQueryTokenTable(tokens));
-        System.out.println();
     }
 
     @Test
@@ -56,10 +50,6 @@ class QueryParserTest {
         assertThat(tokens.get(8).getType()).isEqualTo(QueryTokenType.LEXEME);
         assertThat(tokens.get(8).getLexeme()).isEqualTo("a");
         assertThat(tokens.get(9).getType()).isEqualTo(QueryTokenType.RIGHT_PAREN);
-        QueryTokenTableWriter queryTokenTableWriter = new QueryTokenTableWriter();
-        System.out.println(query);
-        System.out.println(queryTokenTableWriter.writeQueryTokenTable(tokens));
-        System.out.println();
     }
 
     @Test
@@ -69,10 +59,6 @@ class QueryParserTest {
         List<QueryToken> tokens = reader.parse(query);
         assertThat(tokens).isNotNull();
         assertThat(tokens).hasSize(18);
-        QueryTokenTableWriter queryTokenTableWriter = new QueryTokenTableWriter();
-        System.out.println(query);
-        System.out.println(queryTokenTableWriter.writeQueryTokenTable(tokens));
-        System.out.println();
     }
 
 }

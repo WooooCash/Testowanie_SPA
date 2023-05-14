@@ -70,8 +70,7 @@ public class Scanner {
                     identifier();
                     break;
                 }
-                //log.error("[Scanner] Unrecognized character {} on line {}", c, line); //todo ogarnąć slf4j
-                System.err.printf("[Scanner] Unrecognized character %c on line %d\n", c, line);
+                log.error("[Scanner] Unrecognized character {} on line {}", c, line);
                 break;
         }
     }
