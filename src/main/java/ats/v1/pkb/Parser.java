@@ -104,7 +104,7 @@ public class Parser {
         ast.setChildren(whileNode, statementList);
         ast.setFirstChild(whileNode, new VarNode(conditionVarIdx));
 
-        statTable.addStatement(whileNode.getLine(), StatementType.WHILE);
+        statTable.addStatement(whileNode);
         return whileNode;
     }
 
@@ -119,7 +119,7 @@ public class Parser {
         ast.setFirstChild(assign, new VarNode(leftVarIdx));
         ast.addChild(assign, expression);
 
-        statTable.addStatement(assign.getLine(), StatementType.ASSIGN);
+        statTable.addStatement(assign);
         return assign;
     }
 
