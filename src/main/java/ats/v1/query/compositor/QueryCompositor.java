@@ -6,10 +6,12 @@ import ats.v1.query.token.QueryToken;
 import ats.v1.query.token.QueryTokenType;
 import ats.v1.query.validator.QueryException;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 public class QueryCompositor {
 
@@ -60,6 +62,8 @@ public class QueryCompositor {
                 break;
             case THAT:
                 makeSuchThat();
+            case WITH:
+
         }
     }
 
@@ -78,14 +82,15 @@ public class QueryCompositor {
     private void makeSuchThat() {
         QueryToken firstToken = currentTokens.get(0);
         List<QueryNode> args = new ArrayList<>();
-        if (modifiesTypes.contains(firstToken.getType())) {
+        if(!modifiesTypes.contains(firstToken.getType())) {
             throw new QueryException("Bad type in such that");
         }
-        for (int i = 1; i < currentTokens.size(); i++) {
+        for(int i = 1; i < currentTokens.size(); i++) {
             if (currentTokens.get(i).getType().equals(QueryTokenType.LEFT_PAREN)) {
                 i++;
                 while (!currentTokens.get(i).getType().equals(QueryTokenType.RIGHT_PAREN)) {
                     if (currentTokens.get(i).getType().equals(QueryTokenType.COMMA)) {
+                        i++;
                         continue;
                     }
                     if (currentTokens.get(i).getType().equals(QueryTokenType.NUMBER)) {
@@ -94,10 +99,20 @@ public class QueryCompositor {
                     if (currentTokens.get(i).getType().equals(QueryTokenType.LEXEME)) {
                         args.add(QueryNode.builder().name(currentTokens.get(i).getLexeme()).build());
                     }
+                    i++;
                 }
             }
         }
         query.setSuchThat(QueryNode.builder().name(firstToken.getType().name()).children(args).build());
+    }
+
+    private void makeWith() {
+        QueryToken firstToken = currentTokens.get(0);
+        List<QueryNode> args = new ArrayList<>();
+        if (modifiesTypes.contains(firstToken.getType())) {
+            throw new QueryException("Bad type in such that");
+        }
+        //in progress
     }
 
     private void clean() {

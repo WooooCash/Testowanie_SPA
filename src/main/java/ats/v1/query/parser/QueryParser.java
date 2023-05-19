@@ -1,11 +1,10 @@
 package ats.v1.query.parser;
 
-import ats.v1.common.QueryUtils;
 import ats.v1.common.Parser;
+import ats.v1.common.QueryUtils;
 import ats.v1.query.token.QueryToken;
-import ats.v1.spa_frontend.token.Token;
-import ats.v1.query.token.QueryTokenValue;
 import ats.v1.query.token.QueryTokenType;
+import ats.v1.query.token.QueryTokenValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,48 +23,50 @@ public class QueryParser implements Parser<QueryToken> {
             currentArg = scanner.next().toLowerCase();
             QueryTokenType currentToken = queryTokenValue.getTokenType(currentArg);
             if (currentToken != null) {
-                QueryToken token = QueryToken.builder().type(currentToken).build();
-                tokens.add(token);
-            } else { //TODO do poprawy mechanizm varName...
-                for (int i = 0; i < currentArg.length(); i++) {
-                    char currentChar = currentArg.charAt(i);
-                    QueryTokenType queryTokenType = queryTokenValue.getTokenType(String.valueOf(currentChar));
-                    addIfExists(queryTokenType);
-                    if (QueryUtils.isDigit(currentChar)) {
-                        String number = String.valueOf(currentChar);
-                        while (QueryUtils.isDigit(currentArg.charAt(i + 1))) {
-                            number += currentArg.charAt(i + 1);
-                            i++;
-                        }
-                        int valueNumber = Integer.parseInt(number);
-                        QueryToken token = QueryToken.builder().type(QueryTokenType.NUMBER).value(valueNumber).build();
-                        tokens.add(token);
-                    }
-                    if (QueryUtils.isAlpha(currentChar)) {
-                        String letter = String.valueOf(currentChar);
-                        while (currentArg.length() > i + 1 && (QueryUtils.isAlpha(currentArg.charAt(i + 1)) || QueryUtils.isDigit(currentArg.charAt(i + 1)))) {
-                            letter += currentArg.charAt(i + 1);
-                            i++;
-                        }
-                        QueryToken token = QueryToken.builder().type(QueryTokenType.LEXEME).lexeme(letter).build();
-                        tokens.add(token);
-                    }
-                }
-
-
+                addIfExists(currentToken);
+            } else {
+                checkCharByChar(currentArg);
             }
-
-
         }
         return tokens;
     }
 
-    private void addIfExists(QueryTokenType queryTokenType) {
-        if (queryTokenType != null) {
-            QueryToken token = QueryToken.builder().type(queryTokenType).build();
-            tokens.add(token);
-        }
+    private void addIfExists(final QueryTokenType currentToken) {
+        QueryToken token = QueryToken.builder().type(currentToken).build();
+        tokens.add(token);
     }
 
+    private void checkCharByChar(final String currentArg) {
+        for (int i = 0; i < currentArg.length(); i++) {
+            char currentChar = currentArg.charAt(i);
+            QueryTokenType queryTokenType = queryTokenValue.getTokenType(String.valueOf(currentChar));
+            if (queryTokenType != null) {
+                QueryToken token = QueryToken.builder().type(queryTokenType).build();
+                tokens.add(token);
+            }
+            else{
+                if (QueryUtils.isDigit(currentChar)) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(currentChar);
+                    while (QueryUtils.isDigit(currentArg.charAt(i + 1))) {
+                        sb.append(currentArg.charAt(++i));
+                    }
+                    int valueNumber = Integer.parseInt(sb.toString());
+                    QueryToken token = QueryToken.builder().type(QueryTokenType.NUMBER).value(valueNumber).build();
+                    tokens.add(token);
+                }
+                if (QueryUtils.isAlpha(currentChar)) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(currentChar);
+                    while (currentArg.length() > i + 1 && (QueryUtils.isAlpha(currentArg.charAt(i + 1))
+                            || QueryUtils.isDigit(currentArg.charAt(i + 1)))) {
+                        sb.append(currentArg.charAt(++i));
+                    }
+                    QueryToken token = QueryToken.builder().type(QueryTokenType.LEXEME).lexeme(sb.toString()).build();
+                    tokens.add(token);
+                }
+            }
+        }
+    }
 
 }
