@@ -8,16 +8,12 @@ import ats.v1.pkb.modifies_table.ModifiesTable;
 import ats.v1.pkb.statement_table.StatementTable;
 import ats.v1.pkb.uses_table.UsesTable;
 import ats.v1.pkb.var_table.VarTable;
-import ats.v1.spa_frontend.token.TokenType;
 import lombok.AllArgsConstructor;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static ats.v1.spa_frontend.token.TokenType.PROCEDURE;
-import static ats.v1.spa_frontend.token.TokenType.WHILE;
 
 @AllArgsConstructor
 public class PKB {

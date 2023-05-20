@@ -1,6 +1,8 @@
 package ats.v1.query.processor;
 
+import ats.v1.pkb.PKB;
 import ats.v1.query.compositor.QueryCompositor;
+import ats.v1.query.evaluator.QueryEvaluator;
 import ats.v1.query.token.QueryToken;
 import ats.v1.query.parser.QueryParser;
 import ats.v1.query.validator.QueryValidator;
@@ -13,11 +15,15 @@ public class QueryProcessor {
     private final QueryValidator validator = new QueryValidator();
     private final QueryCompositor compositor = new QueryCompositor();
 
-    public void process(final String queryString, final String declaration) {
+    private final QueryEvaluator evaluator = new QueryEvaluator();
+
+    public void process(final String queryString, final String declaration, final PKB pkb) {
         List<QueryToken> tokens = parser.parse(queryString);
         validator.validate(tokens);
         List<QueryToken> validatedTokens = validator.checkTokens(tokens);
-        Query query = compositor.composite(tokens);
+        Query query = compositor.composite(validatedTokens);
+        evaluator.evaluate(pkb, query);
+
         //tworzenie jednego obiektu z listy tokenów
     }
 }

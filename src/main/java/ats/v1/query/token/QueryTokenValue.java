@@ -24,6 +24,8 @@ public class QueryTokenValue {
         values.put(".", QueryTokenType.DOT);
         values.put(",", QueryTokenType.COMMA);
         values.put("”", QueryTokenType.QUOTATION);
+        values.put("\"", QueryTokenType.QUOTATION);
+        values.put("'", QueryTokenType.QUOTATION);
         values.put("varname", QueryTokenType.VARNAME);
         values.put("stmt", QueryTokenType.STMT);
         values.put("=", QueryTokenType.EQUALS);

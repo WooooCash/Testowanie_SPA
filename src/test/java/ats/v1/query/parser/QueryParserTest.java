@@ -33,23 +33,25 @@ class QueryParserTest {
 
     @Test
     void shouldParseQueryCorrectly() {
-        String query = "Select a such that Follows* (20, a)";
+        String query = "Select a such that Follows (\"20\", a)";
         QueryParser reader = new QueryParser();
         List<QueryToken> tokens = reader.parse(query);
-        assertThat(tokens).isNotNull().hasSize(10);
+        assertThat(tokens).isNotNull().hasSize(12);
         assertThat(tokens.get(0).getType()).isEqualTo(QueryTokenType.SELECT);
         assertThat(tokens.get(1).getType()).isEqualTo(QueryTokenType.LEXEME);
         assertThat(tokens.get(1).getLexeme()).isEqualTo("a");
         assertThat(tokens.get(2).getType()).isEqualTo(QueryTokenType.SUCH);
         assertThat(tokens.get(3).getType()).isEqualTo(QueryTokenType.THAT);
-        assertThat(tokens.get(4).getType()).isEqualTo(QueryTokenType.FOLLOWS_PLUS);
+        assertThat(tokens.get(4).getType()).isEqualTo(QueryTokenType.FOLLOWS);
         assertThat(tokens.get(5).getType()).isEqualTo(QueryTokenType.LEFT_PAREN);
-        assertThat(tokens.get(6).getType()).isEqualTo(QueryTokenType.NUMBER);
-        assertThat(tokens.get(6).getValue()).isEqualTo(20);
-        assertThat(tokens.get(7).getType()).isEqualTo(QueryTokenType.COMMA);
-        assertThat(tokens.get(8).getType()).isEqualTo(QueryTokenType.LEXEME);
-        assertThat(tokens.get(8).getLexeme()).isEqualTo("a");
-        assertThat(tokens.get(9).getType()).isEqualTo(QueryTokenType.RIGHT_PAREN);
+        assertThat(tokens.get(6).getType()).isEqualTo(QueryTokenType.QUOTATION);
+        assertThat(tokens.get(7).getType()).isEqualTo(QueryTokenType.NUMBER);
+        assertThat(tokens.get(7).getValue()).isEqualTo(20);
+        assertThat(tokens.get(8).getType()).isEqualTo(QueryTokenType.QUOTATION);
+        assertThat(tokens.get(9).getType()).isEqualTo(QueryTokenType.COMMA);
+        assertThat(tokens.get(10).getType()).isEqualTo(QueryTokenType.LEXEME);
+        assertThat(tokens.get(10).getLexeme()).isEqualTo("a");
+        assertThat(tokens.get(11).getType()).isEqualTo(QueryTokenType.RIGHT_PAREN);
     }
 
     @Test
