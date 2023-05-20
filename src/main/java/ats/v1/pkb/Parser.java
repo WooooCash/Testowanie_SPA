@@ -3,7 +3,6 @@ package ats.v1.pkb;
 import ats.v1.pkb.ast.Ast;
 import ats.v1.pkb.ast.AstImpl;
 import ats.v1.pkb.ast.nodes.*;
-import ats.v1.pkb.design_extractor.StatementType;
 import ats.v1.pkb.proc_table.ProcTable;
 import ats.v1.pkb.statement_table.StatementTable;
 import ats.v1.pkb.var_table.VarTable;
@@ -52,16 +51,16 @@ public class Parser {
         checkNextToken(TokenType.PROCEDURE);
         Token procedure = checkNextToken(TokenType.IDENTIFIER);
         checkNextToken(TokenType.LEFT_BRACE);
-        List<Node> statements = statementList();
+        Node statementList = statementList();
         checkNextToken(TokenType.RIGHT_BRACE);
 
         int procedureIdx = procTable.insert(procedure.getLexeme());
         Node procNode = new ProcedureNode(procedureIdx);
-        ast.setChildren(procNode, statements);
+        ast.addChild(procNode, statementList);
         return procNode;
     }
 
-    private List<Node> statementList() throws WrongTokenException {
+    private StatementListNode statementList() throws WrongTokenException {
         List<Node> statementList = new ArrayList<>();
         TokenType nextType = lookAhead();
         StatementNode previous = null;
@@ -75,8 +74,9 @@ public class Parser {
             nextType = lookAhead();
             previous = statement;
         }
-
-        return statementList;
+        StatementListNode statementListNode = new StatementListNode();
+        ast.setChildren(statementListNode, statementList);
+        return statementListNode;
     }
 
     private StatementNode statement() throws WrongTokenException {
@@ -84,8 +84,12 @@ public class Parser {
         switch (next.getType()) {
             case WHILE:
                 return getWhile();
+            case IF:
+                return getIf();
             case IDENTIFIER:
                 return getAssign();
+            case CALL:
+                return getCall();
             default:
                 throw new WrongTokenException(next.toString());
         }
@@ -95,17 +99,50 @@ public class Parser {
         Token whileToken = checkNextToken(TokenType.WHILE);
         Token condition = checkNextToken(TokenType.IDENTIFIER);
         checkNextToken(TokenType.LEFT_BRACE);
-        List<Node> statementList = statementList();
+        Node statementList = statementList();
         checkNextToken(TokenType.RIGHT_BRACE);
-
 
         StatementNode whileNode = new WhileNode(whileToken.getLine());
         int conditionVarIdx = varTable.insert(condition.getLexeme());
-        ast.setChildren(whileNode, statementList);
         ast.setFirstChild(whileNode, new VarNode(conditionVarIdx));
+        ast.addChild(whileNode, statementList);
 
         statTable.addStatement(whileNode);
         return whileNode;
+    }
+
+    private StatementNode getIf() throws WrongTokenException {
+        Token ifToken = checkNextToken(TokenType.IF);
+        Token condition = checkNextToken(TokenType.IDENTIFIER);
+        checkNextToken(TokenType.THEN);
+        checkNextToken(TokenType.LEFT_BRACE);
+        Node statementList = statementList();
+        checkNextToken(TokenType.RIGHT_BRACE);
+
+        StatementNode ifNode = new IfNode(ifToken.getLine());
+        int conditionVarIdx = varTable.insert(condition.getLexeme());
+        ast.setFirstChild(ifNode, new VarNode(conditionVarIdx));
+        ast.addChild(ifNode, statementList);
+
+        if (lookAhead() == TokenType.ELSE) {
+            checkNextToken(TokenType.ELSE);
+            checkNextToken(TokenType.LEFT_BRACE);
+            Node elseStatementList = statementList();
+            checkNextToken(TokenType.RIGHT_BRACE);
+            ast.addChild(ifNode, elseStatementList);
+        }
+
+        statTable.addStatement(ifNode);
+        return ifNode;
+    }
+
+    private StatementNode getCall() throws WrongTokenException {
+        checkNextToken(TokenType.CALL);
+        Token procedureName = checkNextToken(TokenType.IDENTIFIER);
+        checkNextToken(TokenType.SEMICOLON);
+
+        int procedureIdx = procTable.insert(procedureName.getLexeme());
+        return new CallNode(procedureName.getLine(), procedureIdx);
     }
 
     private StatementNode getAssign() throws WrongTokenException {
@@ -124,12 +161,14 @@ public class Parser {
     }
 
     private Node getExpression() throws WrongTokenException {
-        if (lookAhead(2) == TokenType.SEMICOLON)
+        if (lookAhead(2) == TokenType.SEMICOLON) {
             return getFactor();
+        }
 
         Node firstVar = getFactor();
-        Token operator = checkNextToken(TokenType.PLUS);
+        Token operator = checkNextToken(TokenType.PLUS, TokenType.STAR, TokenType.MINUS);
         Node rightExpr = getExpression();
+
 
         Node expressionNode = new ExpressionNode(operator.getLexeme());
         ast.addChild(expressionNode, firstVar);
@@ -166,7 +205,9 @@ public class Parser {
                 return token;
             allowedTypes.append(type.toString()).append(" ");
         }
-        throw new WrongTokenException("\nLINE " + token.getLine() + "\nEXPECTED ONE OF: [ " + allowedTypes + "]\nGOT: " + token.getType());
+        throw new WrongTokenException("\nLINE " + token.getLine() + "\n" +
+                "EXPECTED ONE OF: [ " + allowedTypes + "]\n" +
+                "GOT: " + token.getType() + " (" + token.getLexeme()+")");
     }
 }
 

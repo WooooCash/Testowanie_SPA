@@ -14,7 +14,11 @@ public enum TokenType {
     IDENTIFIER,
     NUMBER,
     PROCEDURE,
+    CALL,
     WHILE,
+    IF,
+    THEN,
+    ELSE,
     NEW_LINE,
     EOF
 }

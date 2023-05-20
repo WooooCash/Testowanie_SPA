@@ -21,6 +21,10 @@ public class Scanner {
         keywords = new HashMap<>();
         keywords.put("procedure", PROCEDURE);
         keywords.put("while", WHILE);
+        keywords.put("call", CALL);
+        keywords.put("if", IF);
+        keywords.put("then", THEN);
+        keywords.put("else", ELSE);
     } //TODO wynieść do zewnętrznej klasy
 
     private final String programSource;
@@ -48,8 +52,8 @@ public class Scanner {
         char c = advance();
 
         switch (c) {
-            case '(': addToken(LEFT_PAREN); break;
-            case ')': addToken(RIGHT_PAREN); break;
+//            case '(': addToken(LEFT_PAREN); break;
+//            case ')': addToken(RIGHT_PAREN); break;
             case '{': addToken(LEFT_BRACE); break;
             case '}': addToken(RIGHT_BRACE); break;
             case '+': addToken(PLUS); break;
