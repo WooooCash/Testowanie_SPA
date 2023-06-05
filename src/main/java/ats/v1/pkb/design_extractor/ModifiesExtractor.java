@@ -28,10 +28,14 @@ public class ModifiesExtractor implements Extractor {
         if (parent == null) {
             return;
         }
-        if (!(parent instanceof WhileNode)) {
+        if (parent instanceof StatementListNode) {
+            updateParents(parent.getParent(), varIdx);
             return;
         }
-        StatementNode statement = (WhileNode) parent;
+        if (!(parent instanceof WhileNode) && !(parent instanceof IfNode)) {
+            return;
+        }
+        StatementNode statement = (StatementNode) parent;
         mtable.setModifies(statement.getLine(), varIdx);
         updateParents(statement.getParent(), varIdx);
     }

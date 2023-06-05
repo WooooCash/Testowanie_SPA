@@ -41,11 +41,15 @@ public class UsesExtractor implements Extractor {
     }
 
     private void updateParents(Node parent, List<Integer> varIndices) {
-        if (parent == null) {
+        if (parent == null || varIndices == null) {
             return;
         }
-        if (!(parent instanceof WhileNode)) return;
-        StatementNode statement = (WhileNode) parent;
+        if (parent instanceof StatementListNode) {
+            updateParents(parent.getParent(), varIndices);
+            return;
+        }
+        if (!(parent instanceof WhileNode) && !(parent instanceof IfNode)) return;
+        StatementNode statement = (StatementNode) parent;
         utable.setUses(statement.getLine(), varIndices);
         updateParents(statement.getParent(), varIndices);
     }
