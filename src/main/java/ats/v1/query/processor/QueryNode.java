@@ -13,7 +13,9 @@ public class QueryNode {
 
     private final String name;
 
-    private final QueryNode parent;
+    private final QueryNode parent; //być może do wywalenia
+
+    private final String nodeType;
 
     private final List<QueryNode> children;
 
@@ -21,22 +23,26 @@ public class QueryNode {
         this.name = null;
         this.parent = null;
         this.children = null;
+        this.nodeType = null;
     }
     public QueryNode(final String name) {
         this.name = name;
         this.parent = null;
         this.children = null;
+        this.nodeType = null;
     }
 
     public QueryNode(final String name, final QueryNode parent) {
         this.name = name;
         this.parent = parent;
         this.children = null;
+        this.nodeType = null;
     }
 
     public QueryNode(final String name, final List<QueryNode> children) {
         this.name = name;
         this.parent = null;
         this.children = children;
+        this.nodeType = null;
     }
 }

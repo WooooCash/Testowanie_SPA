@@ -1,20 +1,34 @@
 package ats.v1.query.evaluator;
 
-import ats.v1.pkb.PKB;
+import ats.v1.pkb.Pkb;
 import ats.v1.query.processor.Query;
+import ats.v1.query.processor.QueryResolver;
+
+import java.util.List;
 
 public class QueryEvaluator {
 
-    public String evaluate(final PKB pkb, final Query query) {
+    private final QueryResolver resolver = new QueryResolver();
+
+    public String evaluate(final Pkb pkb, final Query query) {
         String name = query.getSuchThat().getName();
         switch (name) {
-            case "Modifies":
+            case "modifies":
                 if (query.getSuchThat().getChildren().size() == 1) {
-                    pkb.modifies(Integer.parseInt(query.getSuchThat().getChildren().get(0).getName()));
+                    List<String> modifies =
+                            pkb.modifies(Integer.parseInt(query.getSuchThat().getChildren().get(0).getName()));
+                    return resolver.resolveString(modifies);
                 }
+                break;
+            case "follows":
+//                if (query.getSuchThat().)
+                break;
+            case "uses":
+                if(query.getSuchThat().getChildren().size() == 1) {
 
+                }
                 break;
         }
-    return "siema";
+        return resolver.resolve(false);
     }
 }

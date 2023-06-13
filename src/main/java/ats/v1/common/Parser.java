@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface Parser<TYPE> {
 
-    List<TYPE> parse(String query);
+    List<TYPE> parse(String declare, String query);
 
 }

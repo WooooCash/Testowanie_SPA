@@ -2,7 +2,7 @@ package ats.v1.query.compositor;
 
 import ats.v1.query.QueryTestUtils;
 import ats.v1.query.processor.Query;
-import ats.v1.query.token.QueryTokenType;
+import ats.v1.query.token.QueryTokenValue;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,7 +22,7 @@ class QueryCompositorTest {
         QueryCompositor compositor = new QueryCompositor();
         Query query = compositor.composite(QueryTestUtils.getTokens());
         assertThat(query.getSuchThat()).isNotNull();
-        assertThat(query.getSuchThat().getName()).isEqualTo(QueryTokenType.MODIFIES.name());
+        assertThat(query.getSuchThat().getName()).isEqualTo(QueryTokenValue.MODIFIES.name());
         assertThat(query.getSuchThat().getChildren()).hasSize(2);
         assertThat(query.getSuchThat().getChildren().get(0).getName()).isNotNull().isEqualTo("a");
         assertThat(query.getSuchThat().getChildren().get(1).getName()).isNotNull().isEqualTo("v");
