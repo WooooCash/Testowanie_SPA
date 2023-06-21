@@ -24,6 +24,7 @@ public class QueryEvaluator {
                     boolResult = boolResult && doesModify;
                     answerType = "bool";
                 } else {
+                    //TODO: Tu jednak będzie jeszcze rozbite na dwa przypadki - jeżeli podamy konkretny statementNr, i variable v, to z pkb dostaniemy listę stringów
                     List<Integer> statements = pkb.modifies(qn.getParam2().getName(), qn.getParam1().getNodeType());
                     if (listResult == null) {
                         listResult = statements;
@@ -68,13 +69,9 @@ public class QueryEvaluator {
 //        }
 //        return resolver.resolve(false);
         if (answerType.equals("bool")){
-            return boolResult ? "true" : "false";
+            return resolver.resolve(boolResult);
         } else {
-            StringJoiner joiner = new StringJoiner(",");
-            for (int i : listResult) {
-                joiner.add(Integer.toString(i));
-            }
-            return joiner.toString();
+            return resolver.resolve(listResult);
         }
     }
 
