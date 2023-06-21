@@ -15,14 +15,21 @@ public class UsesExtractor implements Extractor {
 
     @Override
     public boolean check(Node node) {
-        return node instanceof AssignNode;
+        return node instanceof AssignNode
+                || node instanceof WhileNode
+                || node instanceof IfNode;
     }
 
     @Override
     public void extract(Node node, int currentProcIdx) {
         StatementNode statement = (StatementNode)node;
-        Node rightSide = ast.getNthChild(statement, 2);
-        traverse(rightSide, statement.getLine());
+        if (node instanceof AssignNode) {
+            Node rightSide = ast.getNthChild(statement, 2);
+            traverse(rightSide, statement.getLine());
+        } else {
+            VarNode condition = (VarNode) ast.getNthChild(statement, 1);
+            utable.setUses(statement.getLine(), condition.getVarIdx());
+        }
 
         updateParents(statement.getParent(), utable.getUsed(statement.getLine()));
     }
