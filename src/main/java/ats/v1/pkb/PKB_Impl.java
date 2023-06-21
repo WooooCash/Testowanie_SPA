@@ -1,9 +1,6 @@
 package ats.v1.pkb;
 
-import ats.v1.pkb.ast.nodes.AssignNode;
-import ats.v1.pkb.ast.nodes.Node;
-import ats.v1.pkb.ast.nodes.StatementNode;
-import ats.v1.pkb.ast.nodes.WhileNode;
+import ats.v1.pkb.ast.nodes.*;
 import ats.v1.pkb.modifies_table.ModifiesTable;
 import ats.v1.pkb.statement_table.StatementTable;
 import ats.v1.pkb.uses_table.UsesTable;
@@ -11,6 +8,7 @@ import ats.v1.pkb.var_table.VarTable;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,8 +25,9 @@ public class PKB_Impl implements Pkb{
     private static final Map<String, Class> statementMapping;
     static {
         statementMapping = new HashMap<>();
-        statementMapping.put("a", AssignNode.class);
-        statementMapping.put("w", WhileNode.class);
+        statementMapping.put("assign", AssignNode.class);
+        statementMapping.put("while", WhileNode.class);
+        statementMapping.put("call", CallNode.class);
     } //TODO wynieść do zewnętrznej klasy
 
     public boolean modifies(int statement, String var) {
@@ -37,12 +36,12 @@ public class PKB_Impl implements Pkb{
 
     public List<String> modifies(int statement) {
         List<Integer> idxList = mtable.getModified(statement);
-        return idxList.stream().map(i -> varTable.getName(i)).collect(Collectors.toList());
+        return castToEmpty(idxList.stream().map(i -> varTable.getName(i)).collect(Collectors.toList()));
     }
 
     public List<Integer> modifies(String var, String type) {
         List<Integer> allStatements = mtable.getModifies(varTable.getIndexOf(var));
-        return filterStatements(allStatements, type);
+        return castToEmpty(filterStatements(allStatements, type));
     }
 
     public boolean uses(int statement, String var) {
@@ -51,12 +50,12 @@ public class PKB_Impl implements Pkb{
 
     public List<String> uses(int statement) {
         List<Integer> idxList = utable.getUsed(statement);
-        return idxList.stream().map(i -> varTable.getName(i)).collect(Collectors.toList());
+        return castToEmpty(idxList.stream().map(i -> varTable.getName(i)).collect(Collectors.toList()));
     }
 
     public List<Integer> uses(String var, String type) {
         List<Integer> allStatements = utable.getUses(varTable.getIndexOf(var));
-        return filterStatements(allStatements, type);
+        return castToEmpty(filterStatements(allStatements, type));
     }
 
     public boolean follows(int s1, int s2) {
@@ -87,12 +86,16 @@ public class PKB_Impl implements Pkb{
 
 
     public List<Integer> filterStatements(List<Integer> all, String type) {
-        if (type == null) {
+        if (type == null || all == null) {
             return all;
         }
         return all
                 .stream()
                 .filter(stmt -> statTable.getStatement(stmt).getClass() == statementMapping.get(type))
                 .collect(Collectors.toList());
+    }
+
+    private <T> List<T> castToEmpty(List<T> list) {
+        return list != null ? list : new ArrayList<>();
     }
 }

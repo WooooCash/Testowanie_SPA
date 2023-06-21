@@ -19,10 +19,10 @@ public class QueryProcessor {
     private final QueryCompositorMock queryCompositorMock = new QueryCompositorMock();
 
     public String process(final String queryString, final String declaration, final Pkb pkb) {
-        List<QueryToken> tokens = parser.parse(declaration, queryString);
-        validator.validate(tokens);
-        List<QueryToken> validatedTokens = validator.checkTokens(tokens);
-        Query query = queryCompositorMock.composite(List.of(QueryToken.builder().value(1).build()));
+//        List<QueryToken> tokens = parser.parse(declaration, queryString);
+//        validator.validate(tokens);
+//        List<QueryToken> validatedTokens = validator.checkTokens(tokens);
+        Query query = queryCompositorMock.composite(List.of(QueryToken.builder().value(2).build()));
         return evaluator.evaluate(pkb, query);
     }
 

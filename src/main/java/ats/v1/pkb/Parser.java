@@ -142,7 +142,9 @@ public class Parser {
         checkNextToken(TokenType.SEMICOLON);
 
         int procedureIdx = procTable.insert(procedureName.getLexeme());
-        return new CallNode(procedureName.getLine(), procedureIdx);
+        CallNode callNode = new CallNode(procedureName.getLine(), procedureIdx);
+        statTable.addStatement(callNode);
+        return callNode;
     }
 
     private StatementNode getAssign() throws WrongTokenException {
