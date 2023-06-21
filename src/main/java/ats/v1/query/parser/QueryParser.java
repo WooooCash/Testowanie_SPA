@@ -23,6 +23,9 @@ public class QueryParser implements Parser<QueryToken> {
     }
 
     private void parseTokens(final String declare) {
+        if(declare == null) {
+            return;
+        }
         Scanner scanner = new Scanner(declare);
         String currentArg;
         while (scanner.hasNext()) {

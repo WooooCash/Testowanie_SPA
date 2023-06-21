@@ -74,9 +74,9 @@ public class QueryCompositor {
 //        }
     }
 
-    private List<QueryToken> getAllTokenTillNextHead() {
-
-    }
+//    private List<QueryToken> getAllTokenTillNextHead() {
+//
+//    }
 
     private void makeSuchThat() {
 //        QueryToken firstToken = currentTokens.get(0);
