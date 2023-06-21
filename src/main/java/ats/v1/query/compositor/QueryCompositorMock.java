@@ -28,6 +28,19 @@ public class QueryCompositorMock {
         if (tokens.get(0).getValue() == 2) {
             return new Query(List.of(root2), List.of(select2), List.of(suchThat2, suchThat2_2), null, null);
         }
+
+        QueryNode root3 = QueryNode.builder().name("v").nodeType("variable").build();
+        QueryNode select3 = QueryNode.builder().name("v").nodeType("variable").build();
+        QueryNode suchThat3 = QueryNode.builder().name("modifies").param1(QueryNode.builder().name("7")
+                .nodeType("number").build()).param2(QueryNode.builder().name("v").nodeType("variable").build()).build();
+        QueryNode suchThat3_2 = QueryNode.builder().name("uses").param1(QueryNode.builder().name("7")
+                .nodeType("number").build()).param2(QueryNode.builder().name("v").nodeType("variable").build()).build();
+        if (tokens.get(0).getValue() == 3) {
+            return new Query(List.of(root3), List.of(select3), List.of(suchThat3, suchThat3_2), null, null);
+        }
+        if (tokens.get(0).getValue() == 4) {
+            return new Query(List.of(root3), List.of(select3), List.of(suchThat3), null, null);
+        }
         return new Query(List.of(root2), List.of(select2), List.of(suchThat2), null, null);
     }
 }

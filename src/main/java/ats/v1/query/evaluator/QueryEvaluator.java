@@ -16,34 +16,53 @@ public class QueryEvaluator {
     public String evaluate(final Pkb pkb, final Query query) {
         String answerType = "list";
         List<Integer> listResult = null;
+        List<String> strListResult = null;
         boolean boolResult = true;
         for (QueryNode qn : query.getSuchThat()) {
+            String type1 = qn.getParam1().getNodeType();
+            String type2 = qn.getParam2().getNodeType();
             if (qn.getName().equals("modifies")) {
-                if (qn.getParam1().getNodeType().equals("number")) {
+                if (type1.equals("number") && type2.equals("lexeme")) {
                     boolean doesModify = pkb.modifies(1, qn.getParam2().getName()); //TODO: wziąć statementNr z param1 (to będzie int czy string?)
                     boolResult = boolResult && doesModify;
                     answerType = "bool";
-                } else {
-                    //TODO: Tu jednak będzie jeszcze rozbite na dwa przypadki - jeżeli podamy konkretny statementNr, i variable v, to z pkb dostaniemy listę stringów
+                } else if (type2.equals("lexeme")) {
                     List<Integer> statements = pkb.modifies(qn.getParam2().getName(), qn.getParam1().getNodeType());
                     if (listResult == null) {
                         listResult = statements;
                     } else {
                         listResult = intersection(listResult, statements);
                     }
+                    answerType = "ints";
+                } else {
+                    List<String> vars = pkb.modifies(Integer.parseInt(qn.getParam1().getName()));
+                    if (strListResult == null) {
+                        strListResult = vars;
+                    } else {
+                        strListResult = intersection(strListResult, vars);
+                    }
+                    answerType = "strings";
                 }
             } else if (qn.getName().equals("uses")){
-                if (qn.getParam1().getNodeType().equals("number")) {
+                if (type1.equals("number") && type2.equals("lexeme")) {
                     boolean doesUse = pkb.uses(1, qn.getParam2().getName()); //TODO: wziąć statementNr z param1 (to będzie int czy string?)
                     boolResult = boolResult && doesUse;
                     answerType = "bool";
-                } else {
+                } else if (type2.equals("lexeme")) {
                     List<Integer> statements = pkb.uses(qn.getParam2().getName(), qn.getParam1().getNodeType());
                     if (listResult == null) {
                         listResult = statements;
                     } else {
                         listResult = intersection(listResult, statements);
                     }
+                } else {
+                    List<String> vars = pkb.uses(Integer.parseInt(qn.getParam1().getName()));
+                    if (strListResult == null) {
+                        strListResult = vars;
+                    } else {
+                        strListResult = intersection(strListResult, vars);
+                    }
+                    answerType = "strings";
                 }
             } else if (qn.getName().equals("follows")) {
 
@@ -70,8 +89,10 @@ public class QueryEvaluator {
 //        return resolver.resolve(false);
         if (answerType.equals("bool")){
             return resolver.resolve(boolResult);
-        } else {
+        } else if (answerType.equals("ints")){
             return resolver.resolve(listResult);
+        } else {
+            return resolver.resolveString(strListResult);
         }
     }
 

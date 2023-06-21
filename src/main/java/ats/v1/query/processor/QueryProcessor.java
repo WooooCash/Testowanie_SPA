@@ -22,7 +22,7 @@ public class QueryProcessor {
 //        List<QueryToken> tokens = parser.parse(declaration, queryString);
 //        validator.validate(tokens);
 //        List<QueryToken> validatedTokens = validator.checkTokens(tokens);
-        Query query = queryCompositorMock.composite(List.of(QueryToken.builder().value(2).build()));
+        Query query = queryCompositorMock.composite(List.of(QueryToken.builder().value(4).build()));
         return evaluator.evaluate(pkb, query);
     }
 
