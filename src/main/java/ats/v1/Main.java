@@ -3,6 +3,8 @@ package ats.v1;
 import ats.v1.pkb.PKB;
 import ats.v1.pkb.Parser;
 import ats.v1.pkb.ast.Ast;
+import ats.v1.pkb.call_table.CallsTable;
+import ats.v1.pkb.call_table.CallsTableImpl;
 import ats.v1.pkb.design_extractor.DesignExtractor;
 import ats.v1.pkb.modifies_table.ModifiesTable;
 import ats.v1.pkb.modifies_table.ModifiesTableImpl;
@@ -61,14 +63,17 @@ public class Main {
         ModifiesTable modifiesTable = new ModifiesTableImpl();
         UsesTable usesTable = new UsesTableImpl();
         StatementTable statTable = new StatementTableImpl();
+        CallsTable callTable = new CallsTableImpl();
         Parser parser = new Parser(tokens, varTable, procTable, statTable);
         Ast ast = parser.parseTokens();
         DesignExtractor extractor = new DesignExtractor(ast);
         extractor.extractModifies(modifiesTable);
         extractor.extractUses(usesTable);
+        extractor.extractCalls(callTable);
         PKB pkb = new PKB(modifiesTable, usesTable, varTable, statTable);
         System.out.println(ast.getRoot().toString()); //TODO WEDŁUG MNIE DO TEGO POWINIEN BYĆ JAKIŚ TEST ZROBIONY
         System.out.println(procTable);              // EWENTUALNIE DODANE COŚ NA ZASADZIE FEATURE TOGGLA
+        System.out.println(callTable);
         System.out.println(varTable);
         System.out.println(modifiesTable);
         System.out.println(usesTable);

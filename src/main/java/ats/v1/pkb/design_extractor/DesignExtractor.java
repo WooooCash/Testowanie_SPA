@@ -2,13 +2,19 @@ package ats.v1.pkb.design_extractor;
 
 import ats.v1.pkb.ast.Ast;
 import ats.v1.pkb.ast.nodes.Node;
+import ats.v1.pkb.ast.nodes.ProcedureNode;
+import ats.v1.pkb.call_table.CallsTable;
 import ats.v1.pkb.modifies_table.ModifiesTable;
 import ats.v1.pkb.uses_table.UsesTable;
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 public class DesignExtractor {
     private final Ast ast;
+    private int currentProcIdx = -1;
+
+    public DesignExtractor(Ast ast) {
+        this.ast = ast;
+    }
 
     public void extractModifies(ModifiesTable mtable) {
         traverse(ast.getRoot(), new ModifiesExtractor(ast, mtable));
@@ -18,11 +24,20 @@ public class DesignExtractor {
         traverse(ast.getRoot(), new UsesExtractor(ast, utable));
     }
 
+    public void extractCalls(CallsTable ctable) {
+        traverse(ast.getRoot(), new CallsExtractor(ctable));
+    }
+
     private void traverse(Node root, Extractor extractor) {
         if (root == null) return;
 
+        if (root instanceof ProcedureNode) {
+            ProcedureNode procedureNode = (ProcedureNode) root;
+            currentProcIdx = procedureNode.getProcIdx();
+        }
+
         if (extractor.check(root))
-            extractor.extract(root);
+            extractor.extract(root, currentProcIdx);
 
         for (Node child : root.getChildren())
             traverse(child, extractor);

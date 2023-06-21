@@ -50,12 +50,12 @@ public class Parser {
     private Node procedure() throws WrongTokenException {
         checkNextToken(TokenType.PROCEDURE);
         Token procedure = checkNextToken(TokenType.IDENTIFIER);
+        int procedureIdx = procTable.insert(procedure.getLexeme());
+        Node procNode = new ProcedureNode(procedureIdx);
         checkNextToken(TokenType.LEFT_BRACE);
         Node statementList = statementList();
         checkNextToken(TokenType.RIGHT_BRACE);
 
-        int procedureIdx = procTable.insert(procedure.getLexeme());
-        Node procNode = new ProcedureNode(procedureIdx);
         ast.addChild(procNode, statementList);
         return procNode;
     }

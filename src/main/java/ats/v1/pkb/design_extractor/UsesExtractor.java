@@ -19,7 +19,7 @@ public class UsesExtractor implements Extractor {
     }
 
     @Override
-    public void extract(Node node) {
+    public void extract(Node node, int currentProcIdx) {
         StatementNode statement = (StatementNode)node;
         Node rightSide = ast.getNthChild(statement, 2);
         traverse(rightSide, statement.getLine());

@@ -16,7 +16,7 @@ public class ModifiesExtractor implements Extractor {
     }
 
     @Override
-    public void extract(Node node) {
+    public void extract(Node node, int currentProcIdx) {
         StatementNode statement = (StatementNode)node;
         VarNode var = (VarNode)ast.getNthChild(node, 1);
         mtable.setModifies(statement.getLine(), var.getVarIdx());
