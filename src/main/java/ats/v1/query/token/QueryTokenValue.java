@@ -1,43 +1,51 @@
 package ats.v1.query.token;
 
-import java.util.HashMap;
-import java.util.Map;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-public class QueryTokenValue {
+@AllArgsConstructor
+public enum QueryTokenValue {
+    SELECT("SELECT", "select", QueryTokenType.ESSENTIAL),
+    SUCH("SUCH", "such", QueryTokenType.ESSENTIAL),
+    THAT("THAT", "that", QueryTokenType.ESSENTIAL),
+    WITH("WITH", "with", QueryTokenType.ESSENTIAL),
+    FOLLOWS("FOLLOWS", "follows", QueryTokenType.SUCH_THAT),
+    FOLLOWS_PLUS("FOLLOWS_PLUS", "follows*", QueryTokenType.SUCH_THAT),
+    PARENT("PARENT", "parent", QueryTokenType.SUCH_THAT),
+    PARENT_PLUS("PARENT_PLUS", "parent*", QueryTokenType.SUCH_THAT),
+    MODIFIES("MODIFIES", "modifies", QueryTokenType.SUCH_THAT),
+    MODIFIES_PLUS("MODIFIES_PLUS", "modifies*", QueryTokenType.SUCH_THAT),
+    DOT("DOT", ".", QueryTokenType.OTHER),
+    AND("AND", "and", QueryTokenType.OTHER),
+    QUOTATION("QUOTATION", "\"", QueryTokenType.OTHER),
+    QUOTATION2("QUOTATION", "”", QueryTokenType.OTHER),
+    QUOTATION3("QUOTATION", "'", QueryTokenType.OTHER),
+    VARNAME("VARNAME", "varname", QueryTokenType.OTHER),
+    EQUALS("EQUALS", "=", QueryTokenType.OTHER),
+    NUMBER("NUMBER", "number", QueryTokenType.OTHER),
+    LEXEME("LEXEME", "lexeme", QueryTokenType.OTHER),
+    LEFT_PAREN("LEFT_PAREN", "(", QueryTokenType.OTHER),
+    RIGHT_PAREN("RIGHT_PAREN", ")", QueryTokenType.OTHER),
+    COMMA("COMMA", ",", QueryTokenType.OTHER),
+    EOL("EOL", "", QueryTokenType.OTHER),
+    SEMICOLON("SEMICOLON", ";", QueryTokenType.OTHER),
+    STMT("STMT", "stmt", QueryTokenType.DECLARATION),
+    ASSIGN("ASSIGN", "assign", QueryTokenType.DECLARATION),
+    WHILE("WHILE", "while", QueryTokenType.DECLARATION),
+    PROCEDURE("PROCEDURE", "procedure", QueryTokenType.DECLARATION),
+    PROGLINE("PROGLINE", "prog_line", QueryTokenType.DECLARATION),
+    IF("IF", "if", QueryTokenType.DECLARATION),
+    CALL("CALL", "call", QueryTokenType.DECLARATION),
+    VARIABLE("VARIABLE", "variable", QueryTokenType.DECLARATION),
+    ;
 
-    private final Map<String, QueryTokenType> values = new HashMap<>();
+    @Getter
+    private final String value;
 
-    public QueryTokenValue() {
-        initValues();
-    }
+    @Getter
+    private final String queryValue;
 
-    private void initValues() {
-        values.put("select", QueryTokenType.SELECT);
-        values.put("such", QueryTokenType.SUCH);
-        values.put("that", QueryTokenType.THAT);
-        values.put("follows", QueryTokenType.FOLLOWS);
-        values.put("follows*", QueryTokenType.FOLLOWS_PLUS);
-        values.put("parent", QueryTokenType.PARENT);
-        values.put("parent*", QueryTokenType.PARENT_PLUS);
-        values.put("modifies", QueryTokenType.MODIFIES);
-        values.put("with", QueryTokenType.WITH);
-        values.put(".", QueryTokenType.DOT);
-        values.put(",", QueryTokenType.COMMA);
-        values.put("”", QueryTokenType.QUOTATION);
-        values.put("\"", QueryTokenType.QUOTATION);
-        values.put("'", QueryTokenType.QUOTATION);
-        values.put("varname", QueryTokenType.VARNAME);
-        values.put("stmt", QueryTokenType.STMT);
-        values.put("=", QueryTokenType.EQUALS);
-        values.put("(", QueryTokenType.LEFT_PAREN);
-        values.put(")", QueryTokenType.RIGHT_PAREN);
-        values.put("and", QueryTokenType.AND);
-        values.put("\n", QueryTokenType.EOL);
-        values.put("\r\n", QueryTokenType.EOL);
-        values.put(";", QueryTokenType.SEMICOLON);
-    }
+    @Getter
+    private final QueryTokenType type;
 
-    public QueryTokenType getTokenType(final String value) {
-        return values.get(value);
-    }
 }

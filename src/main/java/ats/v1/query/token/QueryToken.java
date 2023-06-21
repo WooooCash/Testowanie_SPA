@@ -9,7 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class QueryToken {
 
-    final QueryTokenType type;
+    final QueryTokenValue type;
     final String lexeme;
     final int value;
 }

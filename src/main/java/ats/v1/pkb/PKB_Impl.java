@@ -9,6 +9,7 @@ import ats.v1.pkb.statement_table.StatementTable;
 import ats.v1.pkb.uses_table.UsesTable;
 import ats.v1.pkb.var_table.VarTable;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +17,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-public class PKB {
+@NoArgsConstructor
+public class PKB_Impl implements Pkb{
     private ModifiesTable mtable;
     private UsesTable utable;
     private VarTable varTable;

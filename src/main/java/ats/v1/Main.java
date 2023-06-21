@@ -1,39 +1,24 @@
 package ats.v1;
 
-import ats.v1.pkb.PKB;
-import ats.v1.pkb.Parser;
-import ats.v1.pkb.ast.Ast;
-import ats.v1.pkb.call_table.CallsTable;
-import ats.v1.pkb.call_table.CallsTableImpl;
-import ats.v1.pkb.design_extractor.DesignExtractor;
-import ats.v1.pkb.modifies_table.ModifiesTable;
-import ats.v1.pkb.modifies_table.ModifiesTableImpl;
-import ats.v1.pkb.proc_table.ProcTable;
-import ats.v1.pkb.proc_table.ProcTableImpl;
-import ats.v1.pkb.statement_table.StatementTable;
-import ats.v1.pkb.statement_table.StatementTableImpl;
-import ats.v1.pkb.uses_table.UsesTable;
-import ats.v1.pkb.uses_table.UsesTableImpl;
-import ats.v1.pkb.var_table.VarTable;
-import ats.v1.pkb.var_table.VarTableImpl;
-import ats.v1.spa_frontend.scanner.Scanner;
-import ats.v1.spa_frontend.token.Token;
+import ats.v1.pkb.Pkb;
+import ats.v1.pkb.PkbProcessor;
+import ats.v1.query.processor.QueryProcessor;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 
 @Slf4j
 public class Main {
+
+    private static final QueryProcessor queryProcessor = new QueryProcessor();
+    private static final PkbProcessor pkbProcessor = new PkbProcessor();
+
     public static void main(String[] args) {
         log.info("Test");
+        Pkb pkb;
         try {
-            processFile(args[0]);
+            pkb = pkbProcessor.process(args[0]);
         } catch (Exception e) {
             e.printStackTrace();
+            return;
         }
         System.out.println("Ready");
 
@@ -41,43 +26,13 @@ public class Main {
         while (sc.hasNextLine()) {
             String declaration = sc.nextLine();
             String queryString = sc.nextLine();
-            if (queryString.length() == 0) break;
-            System.out.println("FALSE " + declaration + " " + queryString);
+            if (queryString.length() == 0) {
+                break;
+            }
+            log.info("Start processing: " + queryString);
+            String result = queryProcessor.process(queryString, declaration, pkb);
+            System.out.println(result);
         }
-
-
     }
 
-    private static void processFile(String path) throws IOException {
-        byte[] bytes = Files.readAllBytes(Paths.get(path));
-        process(new String(bytes, Charset.defaultCharset()));
-    }
-
-    private static void process(String programSource) {
-        // Scan
-        Scanner scanner = new Scanner(programSource);
-        List<Token> tokens = scanner.scanTokens();
-        // Parse
-        VarTable varTable = new VarTableImpl();
-        ProcTable procTable = new ProcTableImpl();
-        ModifiesTable modifiesTable = new ModifiesTableImpl();
-        UsesTable usesTable = new UsesTableImpl();
-        StatementTable statTable = new StatementTableImpl();
-        CallsTable callTable = new CallsTableImpl();
-        Parser parser = new Parser(tokens, varTable, procTable, statTable);
-        Ast ast = parser.parseTokens();
-        DesignExtractor extractor = new DesignExtractor(ast);
-        extractor.extractModifies(modifiesTable);
-        extractor.extractUses(usesTable);
-        extractor.extractCalls(callTable);
-        PKB pkb = new PKB(modifiesTable, usesTable, varTable, statTable);
-        System.out.println(ast.getRoot().toString()); //TODO WEDŁUG MNIE DO TEGO POWINIEN BYĆ JAKIŚ TEST ZROBIONY
-        System.out.println(procTable);              // EWENTUALNIE DODANE COŚ NA ZASADZIE FEATURE TOGGLA
-        System.out.println(callTable);
-        System.out.println(varTable);
-        System.out.println(modifiesTable);
-        System.out.println(usesTable);
-
-
-    }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class StatementTableImpl implements StatementTable {
-    private Map<Integer, StatementNode> statements = new HashMap<>();
+    private final Map<Integer, StatementNode> statements = new HashMap<>();
 
     @Override
     public void addStatement(StatementNode node) {

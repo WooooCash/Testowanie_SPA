@@ -8,7 +8,8 @@ public class QueryTokenTableWriter {
         tableStr.append("_____________________________________________\n");
         tableStr.append(String.format("| %5s | %12s | %10s | %5s |\n", "INDEX", "TYPE", "LEXEME", "VALUE"));
         for (int i = 0; i < tokens.size(); i++) {
-            tableStr.append(String.format("| %5s | %12s | %10s | %5s |\n", i, tokens.get(i).getType(), tokens.get(i).getLexeme(), tokens.get(i).getValue()));
+            tableStr.append(String.format("| %5s | %12s | %10s | %5s |\n", i, tokens.get(i).getType(),
+                    tokens.get(i).getLexeme(), tokens.get(i).getValue()));
         }
         tableStr.append("_____________________________________________\n");
         return tableStr.toString();

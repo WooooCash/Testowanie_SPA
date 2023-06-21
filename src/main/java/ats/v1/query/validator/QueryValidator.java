@@ -1,15 +1,15 @@
 package ats.v1.query.validator;
 
 import ats.v1.query.token.QueryToken;
-import ats.v1.query.token.QueryTokenType;
 import ats.v1.query.token.QueryTokenValue;
+import ats.v1.query.token.QueryTokenValueProvider;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class QueryValidator {
 
-    private final QueryTokenValue queryTokenValue = new QueryTokenValue();
+    private final QueryTokenValueProvider provider = new QueryTokenValueProvider();
 
     public void validate(final List<QueryToken> tokens) {
         //todo jakby się komuś nudziło to można zrefaktorować to trochę, poprzenosić do oddzielnych metod,
@@ -17,13 +17,13 @@ public class QueryValidator {
         if(tokens.isEmpty()) {
             throw new QueryException("Query is empty [1]");
         }
-        if(!tokens.get(0).getType().equals(QueryTokenType.SELECT)) {
+        if(!tokens.get(0).getType().equals(QueryTokenValue.SELECT)) {
             throw new QueryException("Bad query syntax [2]");
         }
-        if(!tokens.get(2).getType().equals(QueryTokenType.SUCH)) {
+        if(!tokens.get(2).getType().equals(QueryTokenValue.SUCH)) {
             throw new QueryException("Bad query syntax [3]");
         }
-        if(!tokens.get(3).getType().equals(QueryTokenType.THAT)) {
+        if(!tokens.get(3).getType().equals(QueryTokenValue.THAT)) {
             throw new QueryException("Bad query syntax [4]");
         }
     }
@@ -33,7 +33,7 @@ public class QueryValidator {
     }
 
     private QueryToken check(final QueryToken token) {
-        QueryTokenType tokenType = queryTokenValue.getTokenType(token.getLexeme());
+        QueryTokenValue tokenType = provider.getTokenByQueryName(token.getLexeme());
         return tokenType == null ? token : QueryToken.builder().type(tokenType).build();
     }
 
