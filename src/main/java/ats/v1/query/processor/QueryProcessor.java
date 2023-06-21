@@ -20,7 +20,7 @@ public class QueryProcessor {
         validator.validate(tokens);
         List<QueryToken> validatedTokens = validator.checkTokens(tokens);
         Query query = compositor.composite(validatedTokens);
-        return evaluator.evaluate(pkb, query);
+        return null;
     }
 
 }

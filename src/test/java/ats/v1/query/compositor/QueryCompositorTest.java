@@ -14,7 +14,7 @@ class QueryCompositorTest {
         QueryCompositor queryCompositor = new QueryCompositor();
         Query query = queryCompositor.composite(QueryTestUtils.getTokens());
         assertThat(query.getResult()).isNotNull();
-        assertThat(query.getResult().getName()).isEqualTo("a");
+        assertThat(query.getResult().get(0).getName()).isEqualTo("a");
     }
 
     @Test
@@ -22,10 +22,9 @@ class QueryCompositorTest {
         QueryCompositor compositor = new QueryCompositor();
         Query query = compositor.composite(QueryTestUtils.getTokens());
         assertThat(query.getSuchThat()).isNotNull();
-        assertThat(query.getSuchThat().getName()).isEqualTo(QueryTokenValue.MODIFIES.name());
-        assertThat(query.getSuchThat().getChildren()).hasSize(2);
-        assertThat(query.getSuchThat().getChildren().get(0).getName()).isNotNull().isEqualTo("a");
-        assertThat(query.getSuchThat().getChildren().get(1).getName()).isNotNull().isEqualTo("v");
+        assertThat(query.getSuchThat().get(0).getName()).isEqualTo(QueryTokenValue.MODIFIES.name());
+        assertThat(query.getSuchThat().get(0).getParam1()).isNotNull().isEqualTo("a");
+        assertThat(query.getSuchThat().get(0).getParam2()).isNotNull().isEqualTo("v");
     }
 
 }

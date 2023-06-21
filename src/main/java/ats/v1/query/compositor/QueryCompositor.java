@@ -63,15 +63,19 @@ public class QueryCompositor {
     }
 
     private void makeSelect() {
-        if (currentTokens.size() == 1) { //TODO na razie tylko jeden może być, później dodać resztę warunków
-            QueryTokenValue type = currentTokens.get(0).getType();
-            if (type.equals(QueryTokenValue.NUMBER)) {
-                query.setResult(QueryNode.builder().name(String.valueOf(currentTokens.get(0).getValue())).build());
-            }
-            if (type.equals(QueryTokenValue.LEXEME)) {
-                query.setResult(QueryNode.builder().name(String.valueOf(currentTokens.get(0).getLexeme())).build());
-            }
-        }
+//        if (currentTokens.size() == 1) { //TODO na razie tylko jeden może być, później dodać resztę warunków
+//            QueryTokenValue type = currentTokens.get(0).getType();
+//            if (type.equals(QueryTokenValue.NUMBER)) {
+//                query.setResult(QueryNode.builder().name(String.valueOf(currentTokens.get(0).getValue())).build());
+//            }
+//            if (type.equals(QueryTokenValue.LEXEME)) {
+//                query.setResult(QueryNode.builder().name(String.valueOf(currentTokens.get(0).getLexeme())).build());
+//            }
+//        }
+    }
+
+    private List<QueryToken> getAllTokenTillNextHead() {
+
     }
 
     private void makeSuchThat() {

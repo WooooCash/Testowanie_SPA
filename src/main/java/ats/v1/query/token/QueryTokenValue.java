@@ -32,9 +32,12 @@ public enum QueryTokenValue {
     STMT("STMT", "stmt", QueryTokenType.DECLARATION),
     ASSIGN("ASSIGN", "assign", QueryTokenType.DECLARATION),
     WHILE("WHILE", "while", QueryTokenType.DECLARATION),
-    PROCEDURE("PROCEDURE", "procedure", QueryTokenType.DECLARATION);
-//    ASSIGN(value),
-//    WHILE(value);
+    PROCEDURE("PROCEDURE", "procedure", QueryTokenType.DECLARATION),
+    PROGLINE("PROGLINE", "prog_line", QueryTokenType.DECLARATION),
+    IF("IF", "if", QueryTokenType.DECLARATION),
+    CALL("CALL", "call", QueryTokenType.DECLARATION),
+    VARIABLE("VARIABLE", "variable", QueryTokenType.DECLARATION),
+    ;
 
     @Getter
     private final String value;

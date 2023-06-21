@@ -10,25 +10,25 @@ public class QueryEvaluator {
 
     private final QueryResolver resolver = new QueryResolver();
 
-    public String evaluate(final Pkb pkb, final Query query) {
-        String name = query.getSuchThat().getName();
-        switch (name) {
-            case "modifies":
-                if (query.getSuchThat().getChildren().size() == 1) {
-                    List<String> modifies =
-                            pkb.modifies(Integer.parseInt(query.getSuchThat().getChildren().get(0).getName()));
-                    return resolver.resolveString(modifies);
-                }
-                break;
-            case "follows":
-//                if (query.getSuchThat().)
-                break;
-            case "uses":
-                if(query.getSuchThat().getChildren().size() == 1) {
-
-                }
-                break;
-        }
-        return resolver.resolve(false);
+    public void evaluate(final Pkb pkb, final Query query) {
+//        String name = query.getSuchThat().getName();
+//        switch (name) {
+//            case "modifies":
+//                if (query.getSuchThat().getChildren().size() == 1) {
+//                    List<String> modifies =
+//                            pkb.modifies(Integer.parseInt(query.getSuchThat().getChildren().get(0).getName()));
+//                    return resolver.resolveString(modifies);
+//                }
+//                break;
+//            case "follows":
+////                if (query.getSuchThat().)
+//                break;
+//            case "uses":
+//                if(query.getSuchThat().getChildren().size() == 1) {
+//
+//                }
+//                break;
+//        }
+//        return resolver.resolve(false);
     }
 }

@@ -56,7 +56,7 @@ class QueryParserTest {
 
     @Test
     void shouldParseComplexQueryCorrectly() {
-        String declare = "assign a; while v;\n";
+        String declare = "prog_line a; while v;\n";
         String query = "Select a such that Modifies (a,v) with v.varName=”x”";
         QueryParser reader = new QueryParser();
         List<QueryToken> tokens = reader.parse(declare, query);
