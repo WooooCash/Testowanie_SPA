@@ -15,9 +15,9 @@ public class QueryNode {
 
     private final String nodeType;
 
-    private final String param1;
+    private final QueryNode param1;
 
-    private final String param2;
+    private final QueryNode param2;
 
     public QueryNode(final String name) {
         this.name = name;
@@ -33,7 +33,7 @@ public class QueryNode {
         this.nodeType = noteType;
     }
 
-    public QueryNode(final String name, final String param1, final String param2) {
+    public QueryNode(final String name, final QueryNode param1, final QueryNode param2) {
         this.name = name;
         this.param1 = param1;
         this.param2 = param2;

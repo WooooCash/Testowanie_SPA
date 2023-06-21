@@ -10,7 +10,7 @@ public class QueryEvaluator {
 
     private final QueryResolver resolver = new QueryResolver();
 
-    public void evaluate(final Pkb pkb, final Query query) {
+    public String evaluate(final Pkb pkb, final Query query) {
 //        String name = query.getSuchThat().getName();
 //        switch (name) {
 //            case "modifies":
@@ -30,5 +30,6 @@ public class QueryEvaluator {
 //                break;
 //        }
 //        return resolver.resolve(false);
+        return null;
     }
 }

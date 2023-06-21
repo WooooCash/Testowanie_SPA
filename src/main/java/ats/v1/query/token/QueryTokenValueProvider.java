@@ -41,4 +41,12 @@ public class QueryTokenValueProvider {
                 .collect(Collectors.toList());
     }
 
+    public boolean isDeclaration(final QueryToken token) {
+        return token.type.getType().equals(QueryTokenType.DECLARATION);
+    }
+
+    public boolean isEssential(final QueryToken token) {
+        return token.type.getType().equals(QueryTokenType.ESSENTIAL);
+    }
+
 }

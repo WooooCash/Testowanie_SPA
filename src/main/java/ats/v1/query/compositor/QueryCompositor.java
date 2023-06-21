@@ -29,7 +29,7 @@ public class QueryCompositor {
             throw new QueryException("Tokens list is empty.");
         }
         for (QueryToken queryToken : tokens) {
-            if (provider.getAllDeclarations().contains(queryToken.getType())) {
+            if (provider.isDeclaration(queryToken)) {
 
             }
 //            if (provider.getAllEssentials().contains(queryToken.getType())) {
@@ -62,6 +62,12 @@ public class QueryCompositor {
         }
     }
 
+//    private List<QueryToken> getAllTokenTillNextHead(final QueryToken token) {
+//        if(!provider.isEssential(token)) {
+//
+//        }
+//    }
+
     private void makeSelect() {
 //        if (currentTokens.size() == 1) { //TODO na razie tylko jeden może być, później dodać resztę warunków
 //            QueryTokenValue type = currentTokens.get(0).getType();
@@ -74,9 +80,6 @@ public class QueryCompositor {
 //        }
     }
 
-//    private List<QueryToken> getAllTokenTillNextHead() {
-//
-//    }
 
     private void makeSuchThat() {
 //        QueryToken firstToken = currentTokens.get(0);
