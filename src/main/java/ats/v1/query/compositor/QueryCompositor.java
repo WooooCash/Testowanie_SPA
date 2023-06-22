@@ -20,33 +20,43 @@ public class QueryCompositor {
 
     private Query query = new Query();
     private List<Declarations> declarations = new ArrayList<>();
-
     private boolean isWithoutDeclaration = false;
-    private QueryTokenType currentEssential;
+    private QueryTokenValue currentEssential;
     private List<QueryToken> currentTemplateTokens = new ArrayList<>();
 
-    private boolean isEndOfEssential = false;
+
+
+//    private boolean isEndOfEssential = false;
 
     public Query composite(final List<QueryToken> tokens) {
         if (tokens.isEmpty()) {
             throw new QueryException("Tokens list is empty.");
         }
+
         if (tokens.get(0).getType().equals(QueryTokenValue.SELECT)) {
             isWithoutDeclaration = true;
         } else {
-            currentEssential = QueryTokenType.DECLARATION;
+            currentEssential = tokens.get(0).getType();
         }
 
         for (QueryToken queryToken : tokens) {
-            if (!isWithoutDeclaration && currentEssential.equals(QueryTokenType.DECLARATION)) {
+            if (!isWithoutDeclaration && currentEssential.getType().equals(QueryTokenType.DECLARATION)) {
                 if (!queryToken.getType().equals(QueryTokenValue.SELECT)) {
                     currentTemplateTokens.add(queryToken);
                     continue;
                 } else {
-                    isEndOfEssential = true;
                     createDeclarations();
                     isWithoutDeclaration = true;
-                    currentEssential = queryToken.getType().getType();
+                    currentEssential = queryToken.getType();
+                    currentTemplateTokens.clear();
+                }
+            }
+            if (currentEssential.equals(QueryTokenValue.SELECT)) {
+                if (!queryToken.getType().getType().equals(QueryTokenType.ESSENTIAL)) {
+                    currentTemplateTokens.add(queryToken);
+                    continue;
+                } else {
+
                 }
             }
 
@@ -62,6 +72,13 @@ public class QueryCompositor {
             } else if (token.getType().equals(QueryTokenValue.LEXEME)) {
                 declarations.add(new Declarations(value, token.getLexeme()));
             }
+        }
+    }
+
+    private void createResult() {
+        QueryTokenValue value = null;
+        for (QueryToken token : currentTemplateTokens) {
+//            if ()
         }
     }
 
