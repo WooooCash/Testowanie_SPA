@@ -51,7 +51,7 @@ public class Parser {
         checkNextToken(TokenType.PROCEDURE);
         Token procedure = checkNextToken(TokenType.IDENTIFIER);
         int procedureIdx = procTable.insert(procedure.getLexeme());
-        Node procNode = new ProcedureNode(procedureIdx);
+        Node procNode = new ProcedureNode(procedure.getLine(), procedureIdx);
         checkNextToken(TokenType.LEFT_BRACE);
         Node statementList = statementList();
         checkNextToken(TokenType.RIGHT_BRACE);

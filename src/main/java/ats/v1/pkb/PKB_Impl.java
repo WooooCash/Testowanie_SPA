@@ -28,6 +28,7 @@ public class PKB_Impl implements Pkb{
         statementMapping.put("assign", AssignNode.class);
         statementMapping.put("while", WhileNode.class);
         statementMapping.put("call", CallNode.class);
+        statementMapping.put("procedure", ProcedureNode.class);
     } //TODO wynieść do zewnętrznej klasy
 
     public boolean modifies(int statement, String var) {

@@ -55,7 +55,7 @@ public class UsesExtractor implements Extractor {
             updateParents(parent.getParent(), varIndices);
             return;
         }
-        if (!(parent instanceof WhileNode) && !(parent instanceof IfNode)) return;
+        if (!(parent instanceof WhileNode) && !(parent instanceof IfNode) && !(parent instanceof ProcedureNode)) return;
         StatementNode statement = (StatementNode) parent;
         utable.setUses(statement.getLine(), varIndices);
         updateParents(statement.getParent(), varIndices);

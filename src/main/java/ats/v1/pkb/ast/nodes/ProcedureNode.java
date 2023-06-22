@@ -3,11 +3,11 @@ package ats.v1.pkb.ast.nodes;
 import lombok.Getter;
 
 @Getter
-public class ProcedureNode extends Node {
+public class ProcedureNode extends StatementNode {
     private final int procIdx;
 
-    public ProcedureNode(int procIdx) {
-        super();
+    public ProcedureNode(int line, int procIdx) {
+        super(line);
         this.procIdx = procIdx;
     }
 

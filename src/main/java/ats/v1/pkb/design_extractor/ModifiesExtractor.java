@@ -32,7 +32,7 @@ public class ModifiesExtractor implements Extractor {
             updateParents(parent.getParent(), varIdx);
             return;
         }
-        if (!(parent instanceof WhileNode) && !(parent instanceof IfNode)) {
+        if (!(parent instanceof WhileNode) && !(parent instanceof IfNode) && !(parent instanceof ProcedureNode)) {
             return;
         }
         StatementNode statement = (StatementNode) parent;
