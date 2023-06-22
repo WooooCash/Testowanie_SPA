@@ -22,6 +22,12 @@ public interface Pkb {
 
     int follows_before(int s2);
 
+    public boolean calls(int p1, int p2);
+
+    public List<Integer> calls(int p2);
+
+    public List<Integer> calledFrom(int p1);
+
     List<Integer> filterStatements(List<Integer> all, String type);
 }
 

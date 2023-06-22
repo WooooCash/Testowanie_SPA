@@ -1,6 +1,7 @@
 package ats.v1.pkb;
 
 import ats.v1.pkb.ast.nodes.*;
+import ats.v1.pkb.call_table.CallsTable;
 import ats.v1.pkb.modifies_table.ModifiesTable;
 import ats.v1.pkb.statement_table.StatementTable;
 import ats.v1.pkb.uses_table.UsesTable;
@@ -21,6 +22,7 @@ public class PKB_Impl implements Pkb{
     private UsesTable utable;
     private VarTable varTable;
     private StatementTable statTable;
+    private CallsTable ctable;
 
     private static final Map<String, Class> statementMapping;
     static {
@@ -85,6 +87,17 @@ public class PKB_Impl implements Pkb{
         return ((StatementNode)before).getLine();
     }
 
+    public boolean calls(int p1, int p2) {
+        return ctable.doesCall(p1, p2);
+    }
+
+    public List<Integer> calls(int p2) {
+        return ctable.getCalls(p2);
+    }
+
+    public List<Integer> calledFrom(int p1) {
+        return ctable.getCalledFrom(p1);
+    }
 
     public List<Integer> filterStatements(List<Integer> all, String type) {
         if (type == null || all == null) {
