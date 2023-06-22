@@ -7,16 +7,14 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class QueryCompositorTest {
 
-    @Disabled
     @Test
-    void shouldCreateSelectCorrectly() {
+    void shouldCreateDeclarationsCorrectly() {
         QueryCompositor queryCompositor = new QueryCompositor();
-        Query query = queryCompositor.composite(QueryTestUtils.getTokens());
-        assertThat(query.getResult()).isNotNull();
-        assertThat(query.getResult().get(0).getName()).isEqualTo("a");
+        assertDoesNotThrow(() -> queryCompositor.composite(QueryTestUtils.getDeclarationTokens()));
     }
 
     @Disabled

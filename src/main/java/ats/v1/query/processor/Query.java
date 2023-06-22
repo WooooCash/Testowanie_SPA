@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Query {
-    private List<QueryNode> root;
     private List<QueryNode> result;
     private List<QueryNode> suchThat;
     private List<QueryNode> with;

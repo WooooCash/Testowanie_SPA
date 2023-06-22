@@ -28,4 +28,18 @@ public class QueryTestUtils {
                 QueryToken.builder().type(QueryTokenValue.QUOTATION).build()
         );
     }
+
+    public static List<QueryToken> getDeclarationTokens() {
+        return List.of(
+            QueryToken.builder().type(QueryTokenValue.STMT).build(),
+            QueryToken.builder().type(QueryTokenValue.LEXEME).lexeme("s1").build(),
+            QueryToken.builder().type(QueryTokenValue.COMMA).build(),
+            QueryToken.builder().type(QueryTokenValue.LEXEME).lexeme("s2").build(),
+            QueryToken.builder().type(QueryTokenValue.SEMICOLON).build(),
+            QueryToken.builder().type(QueryTokenValue.ASSIGN).build(),
+            QueryToken.builder().type(QueryTokenValue.LEXEME).lexeme("a").build(),
+            QueryToken.builder().type(QueryTokenValue.SEMICOLON).build(),
+            QueryToken.builder().type(QueryTokenValue.SELECT).build()
+        );
+    }
 }
