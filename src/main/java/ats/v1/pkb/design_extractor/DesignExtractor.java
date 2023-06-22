@@ -29,6 +29,10 @@ public class DesignExtractor {
         traverse(ast.getRoot(), new ModifiesUsesForCallExtractor(utable, mtable, stable));
     }
 
+    public void extractModifiesUsesForProcedure(ModifiesTable mtable, UsesTable utable, StatementTable stable, CallsTable ctable) {
+        traverse(ast.getRoot(), new ModifiesUsesForProcedureExtractor(mtable, utable, ctable, stable));
+    }
+
     public void extractCalls(CallsTable ctable) {
         traverse(ast.getRoot(), new CallsExtractor(ctable));
     }
@@ -41,11 +45,12 @@ public class DesignExtractor {
             currentProcIdx = procedureNode.getProcIdx();
         }
 
-        if (extractor.check(root))
-            extractor.extract(root, currentProcIdx);
-
         for (Node child : root.getChildren())
             traverse(child, extractor);
+        if (extractor.check(root)) {
+            extractor.extract(root, currentProcIdx);
+        }
+
     }
 
 }
