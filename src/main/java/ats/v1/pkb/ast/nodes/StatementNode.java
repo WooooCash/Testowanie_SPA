@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class StatementNode extends Node {
-    private int line;
+    private final int line;
 
     public StatementNode(int line) {
         super();

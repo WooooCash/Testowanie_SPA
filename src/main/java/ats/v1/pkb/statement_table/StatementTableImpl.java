@@ -3,6 +3,7 @@ package ats.v1.pkb.statement_table;
 import ats.v1.pkb.ast.nodes.StatementNode;
 import ats.v1.pkb.design_extractor.StatementType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,6 @@ public class StatementTableImpl implements StatementTable {
 
     @Override
     public List<StatementNode> getStatements() {
-        return (List<StatementNode>)statements.values();
+        return new ArrayList<>(statements.values());
     }
 }

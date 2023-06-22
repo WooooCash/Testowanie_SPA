@@ -5,6 +5,7 @@ import ats.v1.pkb.ast.nodes.Node;
 import ats.v1.pkb.ast.nodes.ProcedureNode;
 import ats.v1.pkb.call_table.CallsTable;
 import ats.v1.pkb.modifies_table.ModifiesTable;
+import ats.v1.pkb.statement_table.StatementTable;
 import ats.v1.pkb.uses_table.UsesTable;
 import lombok.AllArgsConstructor;
 
@@ -22,6 +23,10 @@ public class DesignExtractor {
 
     public void extractUses(UsesTable utable) {
         traverse(ast.getRoot(), new UsesExtractor(ast, utable));
+    }
+
+    public void extractModifiesUsesForCall(ModifiesTable mtable, UsesTable utable, StatementTable stable) {
+        traverse(ast.getRoot(), new ModifiesUsesForCallExtractor(utable, mtable, stable));
     }
 
     public void extractCalls(CallsTable ctable) {
