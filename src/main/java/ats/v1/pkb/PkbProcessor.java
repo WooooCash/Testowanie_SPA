@@ -46,8 +46,9 @@ public class PkbProcessor {
         DesignExtractor extractor = new DesignExtractor(ast);
         extractor.extractModifies(modifiesTable);
         extractor.extractUses(usesTable);
-        extractor.extractModifiesUsesForCall(modifiesTable, usesTable, statTable);
         extractor.extractCalls(callTable);
+        extractor.extractModifiesUsesForCall(modifiesTable, usesTable, statTable);
+        extractor.extractModifiesUsesForProcedure(modifiesTable, usesTable, statTable, callTable);
         System.out.println(ast.getRoot().toString()); //TODO WEDŁUG MNIE DO TEGO POWINIEN BYĆ JAKIŚ TEST ZROBIONY
         System.out.println(procTable);              // EWENTUALNIE DODANE COŚ NA ZASADZIE FEATURE TOGGLA
         System.out.println(callTable);
