@@ -42,10 +42,12 @@ public class QueryCompositorMock {
         return new Query(List.of(select2), List.of(suchThat2), null, null);
     }
 
-    public String mock(final List<QueryToken> tokens) {
-        if (tokens.contains(QueryToken.builder().type(QueryTokenType.MINORITY).build())) {
+    public String mock(final String query) {
+        if(query.contains("<"))
             return "none";
-        }
+        if(query.contains("BOOLEAN") || query.contains("boolean") || query.contains("Boolean"))
+            return "true";
         return null;
     }
+
 }

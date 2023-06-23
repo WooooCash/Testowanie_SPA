@@ -179,6 +179,10 @@ public class QueryCompositor {
         }
     }
 
+    private void createPattern() {
+
+    }
+
     @AllArgsConstructor
     static class Declaration {
         private QueryTokenType value;
