@@ -41,10 +41,7 @@ public class Main {
             try {
                 result = queryProcessor.process(queryString, declaration, pkb);
             } catch (Exception e) {
-                result = "PAPA";
-                //log.info(e.getMessage(),e);
-                //System.out.println("Pojebało kogos");
-                //continue;
+                result = "none";
             }
             System.out.println(result);
         }
