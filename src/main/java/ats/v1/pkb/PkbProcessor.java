@@ -57,7 +57,7 @@ public class PkbProcessor {
         System.out.println(varTable);
         System.out.println(modifiesTable);
         System.out.println(usesTable);
-        return new PKB_Impl(modifiesTable, usesTable, varTable, statTable, callTable);
+        return new PKB_Impl(modifiesTable, usesTable, varTable, statTable, callTable, procTable);
     }
 
 }

@@ -29,6 +29,12 @@ public interface Pkb {
     public List<Integer> calledFrom(int p1);
 
     List<Integer> filterStatements(List<Integer> all, String type);
+
+    List<Integer> getStatements(String type);
+
+    List<String> getStringTypes(String type);
+
+    List<String> getProcedureNamesByLines(List<Integer> ints);
 }
 
 

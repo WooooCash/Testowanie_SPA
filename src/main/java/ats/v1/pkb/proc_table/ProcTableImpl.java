@@ -17,6 +17,11 @@ public class ProcTableImpl implements ProcTable {
     }
 
     @Override
+    public List<String> getAll() {
+        return table;
+    }
+
+    @Override
     public String getName(int idx) {
         return table.get(idx);
     }

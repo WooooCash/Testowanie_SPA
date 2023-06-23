@@ -7,6 +7,11 @@ public class VarTableImpl implements VarTable {
     List<String> table = new ArrayList<>();
 
     @Override
+    public List<String> getAll() {
+        return table;
+    }
+
+    @Override
     public int insert(String name) {
         if (table.contains(name))
             return table.indexOf(name);

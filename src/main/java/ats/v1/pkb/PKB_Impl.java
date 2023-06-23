@@ -3,6 +3,7 @@ package ats.v1.pkb;
 import ats.v1.pkb.ast.nodes.*;
 import ats.v1.pkb.call_table.CallsTable;
 import ats.v1.pkb.modifies_table.ModifiesTable;
+import ats.v1.pkb.proc_table.ProcTable;
 import ats.v1.pkb.statement_table.StatementTable;
 import ats.v1.pkb.uses_table.UsesTable;
 import ats.v1.pkb.var_table.VarTable;
@@ -24,6 +25,7 @@ public class PKB_Impl implements Pkb{
     private VarTable varTable;
     private StatementTable statTable;
     private CallsTable ctable;
+    private ProcTable ptable;
 
     private static final Map<String, Type> statementMapping;
     static {
@@ -102,6 +104,35 @@ public class PKB_Impl implements Pkb{
 
     public List<Integer> calledFrom(int p1) {
         return ctable.getCalledFrom(p1);
+    }
+
+    @Override
+    public List<Integer> getStatements(String type) {
+        List<Integer> result = new ArrayList<>();
+        for (StatementNode sn : statTable.getStatements()) {
+            if (checkType(sn, type)) result.add(sn.getLine());
+        }
+        return result;
+    }
+
+    public List<String> getStringTypes(String type) {
+        if (type.equals("variable")) {
+            return varTable.getAll();
+        } else if (type.equals("procedure")) {
+            return ptable.getAll();
+        }
+        return new ArrayList<>();
+    }
+
+    public List<String> getProcedureNamesByLines(List<Integer> ints) {
+        List<String> result = new ArrayList<>();
+        for (Integer i : ints) {
+            StatementNode sn = statTable.getStatement(i);
+            if (!(sn instanceof ProcedureNode)) continue;
+            ProcedureNode pn = (ProcedureNode) sn;
+            result.add(ptable.getName(pn.getProcIdx()));
+        }
+        return result;
     }
 
     public List<Integer> filterStatements(List<Integer> all, String type) {
