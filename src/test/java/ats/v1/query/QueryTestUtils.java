@@ -7,8 +7,15 @@ import java.util.List;
 
 public class QueryTestUtils {
 
-    public static List<QueryToken> getTokens() { //Select a such that Modifies (a,v) with v.varName=”x”
-        return List.of(QueryToken.builder().type(QueryTokenType.SELECT).build(),
+    public static List<QueryToken> getTokens() { //assign a; while v; Select a such that Modifies (a,v) with v.varName=”x” and v.value = 1
+        return List.of(
+                QueryToken.builder().type(QueryTokenType.ASSIGN).build(),
+                QueryToken.builder().type(QueryTokenType.LEXEME).lexeme("a").build(),
+                QueryToken.builder().type(QueryTokenType.SEMICOLON).build(),
+                QueryToken.builder().type(QueryTokenType.WHILE).build(),
+                QueryToken.builder().type(QueryTokenType.LEXEME).lexeme("v").build(),
+                QueryToken.builder().type(QueryTokenType.SEMICOLON).build(),
+                QueryToken.builder().type(QueryTokenType.SELECT).build(),
                 QueryToken.builder().type(QueryTokenType.LEXEME).lexeme("a").build(),
                 QueryToken.builder().type(QueryTokenType.SUCH).build(),
                 QueryToken.builder().type(QueryTokenType.THAT).build(),
@@ -25,7 +32,14 @@ public class QueryTestUtils {
                 QueryToken.builder().type(QueryTokenType.EQUALS).build(),
                 QueryToken.builder().type(QueryTokenType.QUOTATION).build(),
                 QueryToken.builder().type(QueryTokenType.LEXEME).lexeme("x").build(),
-                QueryToken.builder().type(QueryTokenType.QUOTATION).build()
+                QueryToken.builder().type(QueryTokenType.QUOTATION).build(),
+                QueryToken.builder().type(QueryTokenType.AND).build(),
+                QueryToken.builder().type(QueryTokenType.LEXEME).lexeme("v").build(),
+                QueryToken.builder().type(QueryTokenType.DOT).build(),
+                QueryToken.builder().type(QueryTokenType.VALUE).build(),
+                QueryToken.builder().type(QueryTokenType.EQUALS).build(),
+                QueryToken.builder().type(QueryTokenType.NUMBER).value(1).build(),
+                QueryToken.builder().type(QueryTokenType.EOL).build()
         );
     }
 
@@ -39,7 +53,8 @@ public class QueryTestUtils {
                 QueryToken.builder().type(QueryTokenType.ASSIGN).build(),
                 QueryToken.builder().type(QueryTokenType.LEXEME).lexeme("a").build(),
                 QueryToken.builder().type(QueryTokenType.SEMICOLON).build(),
-                QueryToken.builder().type(QueryTokenType.SELECT).build()
+                QueryToken.builder().type(QueryTokenType.SELECT).build(),
+                QueryToken.builder().type(QueryTokenType.EOL).build()
         );
     }
 

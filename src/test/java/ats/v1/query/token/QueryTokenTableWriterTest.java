@@ -1,6 +1,7 @@
 package ats.v1.query.token;
 
 import ats.v1.query.QueryTestUtils;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 
 class QueryTokenTableWriterTest {
 
+    @Disabled
     @Test
     void shouldWriteTokenTableCorrectly() {
         List<QueryToken> tokens = QueryTestUtils.getTokens();

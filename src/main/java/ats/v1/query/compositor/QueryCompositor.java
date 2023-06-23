@@ -2,6 +2,7 @@ package ats.v1.query.compositor;
 
 import ats.v1.query.processor.Query;
 import ats.v1.query.processor.QueryNode;
+import ats.v1.query.processor.QueryWithNode;
 import ats.v1.query.token.QueryToken;
 import ats.v1.query.token.QueryTokenGroup;
 import ats.v1.query.token.QueryTokenType;
@@ -25,25 +26,16 @@ public class QueryCompositor {
     private QueryTokenType currentEssential;
     private List<QueryToken> currentTemplateTokens = new ArrayList<>();
 
-
-
-//    private boolean isEndOfEssential = false;
-
     public Query composite(final List<QueryToken> tokens) {
         if (tokens.isEmpty()) {
             throw new QueryException("Tokens list is empty.");
         }
-
-        if (tokens.get(0).getType().equals(QueryTokenType.SELECT)) {
-            isWithoutDeclaration = true;
-        } else {
-            currentEssential = tokens.get(0).getType();
-        }
+        isWithoutDeclaration = tokens.get(0).getType().equals(QueryTokenType.SELECT);
+        currentEssential = tokens.get(0).getType();
         for (QueryToken queryToken : tokens) {
             if (!isWithoutDeclaration && currentEssential.getGroup().equals(QueryTokenGroup.DECLARATION)) {
                 if (!queryToken.getType().equals(QueryTokenType.SELECT)) {
                     currentTemplateTokens.add(queryToken);
-                    continue;
                 } else {
                     createDeclarations();
                     isWithoutDeclaration = true;
@@ -54,7 +46,6 @@ public class QueryCompositor {
             if (currentEssential.equals(QueryTokenType.SELECT)) {
                 if (!queryToken.getType().getGroup().equals(QueryTokenGroup.ESSENTIAL)) {
                     currentTemplateTokens.add(queryToken);
-                    continue;
                 } else {
                     createResult();
                     currentEssential = queryToken.getType();
@@ -63,7 +54,6 @@ public class QueryCompositor {
             }
             if(currentEssential.equals(QueryTokenType.SUCH)) {
                 currentEssential = queryToken.getType();
-                continue;
             }
             if(currentEssential.equals(QueryTokenType.THAT)) {
                 if (!queryToken.getType().getGroup().equals(QueryTokenGroup.ESSENTIAL)) {
@@ -74,7 +64,15 @@ public class QueryCompositor {
                     currentTemplateTokens.clear();
                 }
             }
-
+            if(currentEssential.equals(QueryTokenType.WITH)) {
+                if (!queryToken.getType().getGroup().equals(QueryTokenGroup.ESSENTIAL)) {
+                    currentTemplateTokens.add(queryToken);
+                } else {
+                    createWith();
+                    currentEssential = queryToken.getType();
+                    currentTemplateTokens.clear();
+                }
+            }
         }
         return query;
     }
@@ -138,6 +136,46 @@ public class QueryCompositor {
             }
         }
         query.getSuchThat().addAll(suchThatNodes);
+    }
+
+    private void createWith() {
+        QueryWithNode queryWithNode = new QueryWithNode();
+        for(int i = 0; i < currentTemplateTokens.size(); i++) {
+            if(currentTemplateTokens.get(i).getType().equals(QueryTokenType.AND)) {
+                query.getWith().add(queryWithNode);
+                queryWithNode.clear();
+            }
+            QueryTokenType inDeclarations = isInDeclarations(currentTemplateTokens.get(i));
+            if(inDeclarations != null) {
+                queryWithNode.setFirstParamName(currentTemplateTokens.get(i).getLexeme());
+                queryWithNode.setFirstParamType(inDeclarations.getQueryValue());
+                queryWithNode.setFirstParamArgument(currentTemplateTokens.get(i + 2).getLexeme());
+                if(currentTemplateTokens.get(i + 3).getType().equals(QueryTokenType.HASH)) {
+                    queryWithNode.setFirstParamHash(true);
+                }
+            }
+            if(currentTemplateTokens.get(i).getType().equals(QueryTokenType.EQUALS)) {
+                if(currentTemplateTokens.get(i + 1).getType().equals(QueryTokenType.NUMBER)) {
+                    queryWithNode.setSecondParamType("number");
+                    queryWithNode.setSecondParamValue(currentTemplateTokens.get(i + 1).getValue());
+                }
+                if(currentTemplateTokens.get(i + 1).getType().equals(QueryTokenType.QUOTATION)) {
+                    queryWithNode.setSecondParamType(currentTemplateTokens.get(i + 2).getLexeme());
+                }
+                QueryTokenType inDeclarations1 = isInDeclarations(currentTemplateTokens.get(i + 1));
+                if(inDeclarations1 != null) {
+                    queryWithNode.setSecondParamName(currentTemplateTokens.get(i + 1).getLexeme());
+                    queryWithNode.setSecondParamType(inDeclarations1.getQueryValue());
+                    queryWithNode.setSecondParamArgument(currentTemplateTokens.get(i + 3).getLexeme());
+                    if(currentTemplateTokens.get(i + 4).getType().equals(QueryTokenType.HASH)) {
+                        queryWithNode.setSecondParamHash(true);
+                    }
+                }
+            }
+        }
+        if(!queryWithNode.getFirstParamName().isEmpty()) {
+            query.getWith().add(queryWithNode);
+        }
     }
 
     @AllArgsConstructor

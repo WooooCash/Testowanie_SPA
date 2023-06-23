@@ -29,8 +29,16 @@ class QueryCompositorTest {
         QueryCompositor compositor = new QueryCompositor();
         Query query = compositor.composite(QueryTestUtils.getWKurweMocneTokens());
         assertThat(query.getSuchThat()).isNotNull();
-        assertThat(query.getResult().get(0).getName()).isEqualTo("a1");
-        assertThat(query.getResult().get(0).getNodeType()).isEqualTo("assign");
+        assertThat(query.getSuchThat()).hasSize(3);
+        assertThat(query.getSuchThat().get(0).getName()).isEqualTo("affects");
+        assertThat(query.getSuchThat().get(1).getParam1().getName()).isEqualTo("w2");
+    }
+
+    @Test
+    void shouldCreateWithCorrectly() {
+        QueryCompositor compositor = new QueryCompositor();
+        Query query = compositor.composite(QueryTestUtils.getTokens());
+        assertThat(query.getWith()).isNotNull();
     }
 
 }

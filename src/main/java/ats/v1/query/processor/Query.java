@@ -15,6 +15,6 @@ import java.util.List;
 public class Query {
     private List<QueryNode> result = new ArrayList<>();
     private List<QueryNode> suchThat = new ArrayList<>();
-    private List<QueryNode> with = new ArrayList<>();
+    private List<QueryWithNode> with = new ArrayList<>();
     private List<QueryNode> pattern = new ArrayList<>();
 }
