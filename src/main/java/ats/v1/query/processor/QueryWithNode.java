@@ -27,16 +27,4 @@ public class QueryWithNode {
 
     private boolean secondParamHash = false;
 
-    public void clear() {
-        this.firstParamName = "";
-        this.firstParamType = null;
-        this.firstParamArgument = null;
-        this.firstParamHash = false;
-        this.secondParamName = null;
-        this.secondParamType = null;
-        this.secondParamArgument = null;
-        this.secondParamValue = null;
-        this.secondParamHash = false;
-    }
-
 }

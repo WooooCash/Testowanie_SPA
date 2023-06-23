@@ -39,6 +39,16 @@ public class QueryTestUtils {
                 QueryToken.builder().type(QueryTokenType.VALUE).build(),
                 QueryToken.builder().type(QueryTokenType.EQUALS).build(),
                 QueryToken.builder().type(QueryTokenType.NUMBER).value(1).build(),
+                QueryToken.builder().type(QueryTokenType.AND).build(),
+                QueryToken.builder().type(QueryTokenType.LEXEME).lexeme("v").build(),
+                QueryToken.builder().type(QueryTokenType.DOT).build(),
+                QueryToken.builder().type(QueryTokenType.VARNAME).build(),
+                QueryToken.builder().type(QueryTokenType.HASH).build(),
+                QueryToken.builder().type(QueryTokenType.EQUALS).build(),
+                QueryToken.builder().type(QueryTokenType.LEXEME).lexeme("v").build(),
+                QueryToken.builder().type(QueryTokenType.DOT).build(),
+                QueryToken.builder().type(QueryTokenType.STMT).build(),
+                QueryToken.builder().type(QueryTokenType.HASH).build(),
                 QueryToken.builder().type(QueryTokenType.EOL).build()
         );
     }

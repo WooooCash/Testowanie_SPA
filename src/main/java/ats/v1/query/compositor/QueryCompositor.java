@@ -143,13 +143,13 @@ public class QueryCompositor {
         for(int i = 0; i < currentTemplateTokens.size(); i++) {
             if(currentTemplateTokens.get(i).getType().equals(QueryTokenType.AND)) {
                 query.getWith().add(queryWithNode);
-                queryWithNode.clear();
+                queryWithNode = new QueryWithNode();
             }
             QueryTokenType inDeclarations = isInDeclarations(currentTemplateTokens.get(i));
             if(inDeclarations != null) {
                 queryWithNode.setFirstParamName(currentTemplateTokens.get(i).getLexeme());
                 queryWithNode.setFirstParamType(inDeclarations.getQueryValue());
-                queryWithNode.setFirstParamArgument(currentTemplateTokens.get(i + 2).getLexeme());
+                queryWithNode.setFirstParamArgument(currentTemplateTokens.get(i + 2).getType().getQueryValue());
                 if(currentTemplateTokens.get(i + 3).getType().equals(QueryTokenType.HASH)) {
                     queryWithNode.setFirstParamHash(true);
                 }
@@ -160,7 +160,8 @@ public class QueryCompositor {
                     queryWithNode.setSecondParamValue(currentTemplateTokens.get(i + 1).getValue());
                 }
                 if(currentTemplateTokens.get(i + 1).getType().equals(QueryTokenType.QUOTATION)) {
-                    queryWithNode.setSecondParamType(currentTemplateTokens.get(i + 2).getLexeme());
+                    queryWithNode.setSecondParamName(currentTemplateTokens.get(i + 2).getLexeme());
+                    queryWithNode.setSecondParamType("lexeme");
                 }
                 QueryTokenType inDeclarations1 = isInDeclarations(currentTemplateTokens.get(i + 1));
                 if(inDeclarations1 != null) {
