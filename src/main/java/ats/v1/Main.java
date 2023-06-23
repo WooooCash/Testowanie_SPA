@@ -37,7 +37,12 @@ public class Main {
                 System.out.println(mocked);
                 continue;
             }
-            String result = queryProcessor.process(queryString, declaration, pkb);
+            String result = "none";
+            try{
+               result = queryProcessor.process(queryString, declaration, pkb);
+            }
+            catch (Exception e) {
+            }
             System.out.println(result);
         }
     }
