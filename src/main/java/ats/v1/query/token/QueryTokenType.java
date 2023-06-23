@@ -12,7 +12,7 @@ public enum QueryTokenType {
     PATTERN("PATTERN", "pattern", QueryTokenGroup.ESSENTIAL),
     FOLLOWS("FOLLOWS", "follows", QueryTokenGroup.SUCH_THAT),
     FOLLOWS_PLUS("FOLLOWS_PLUS", "follows*", QueryTokenGroup.SUCH_THAT),
-    USES("USES", "uses*", QueryTokenGroup.SUCH_THAT),
+    USES("USES", "uses", QueryTokenGroup.SUCH_THAT),
     USES_PLUS("USES_PLUS", "uses*", QueryTokenGroup.SUCH_THAT),
     PARENT("PARENT", "parent", QueryTokenGroup.SUCH_THAT),
     PARENT_PLUS("PARENT_PLUS", "parent*", QueryTokenGroup.SUCH_THAT),
