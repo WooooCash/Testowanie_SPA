@@ -14,10 +14,12 @@ public class QueryResolver {
     }
 
     public String resolve(final List<Integer> arg) {
+        if (arg == null || arg.isEmpty()) return "NONE";
         return arg.stream().map(String::valueOf).collect(Collectors.joining(", "));
     }
 
     public String resolveString(final List<String> arg) {
+        if (arg == null || arg.isEmpty()) return "NONE";
         return String.join(", ", arg);
     }
 

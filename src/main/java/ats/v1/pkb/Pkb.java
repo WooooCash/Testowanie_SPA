@@ -18,9 +18,9 @@ public interface Pkb {
 
     boolean follows(int s1, int s2);
 
-    int follows_after(int s1);
+    int follows_after(int s1, String type);
 
-    int follows_before(int s2);
+    int follows_before(int s2, String type);
 
     public boolean calls(int p1, int p2);
 
