@@ -28,6 +28,7 @@ public class UsesTableImpl implements UsesTable {
 
     @Override
     public void setUses(int statementLineNr, List<Integer> varIndices) {
+        if (varIndices == null) return;
         for (int varIdx : varIndices) {
             setUses(statementLineNr, varIdx);
         }
