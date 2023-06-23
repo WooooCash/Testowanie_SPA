@@ -22,6 +22,7 @@ public class QueryProcessor {
         List<QueryToken> validatedTokens = validator.checkTokens(tokens);
         Query query = compositor.composite(validatedTokens);
 //        Query query = queryCompositorMock.composite(List.of(QueryToken.builder().value(1).build())); //todo do wywalenia po beta testach
+
         return evaluator.evaluate(pkb, query);
     }
 
