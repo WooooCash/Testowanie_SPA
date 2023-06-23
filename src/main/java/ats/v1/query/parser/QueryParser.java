@@ -5,6 +5,7 @@ import ats.v1.common.QueryUtils;
 import ats.v1.query.token.QueryToken;
 import ats.v1.query.token.QueryTokenType;
 import ats.v1.query.token.QueryTokenTypeProvider;
+import lombok.AllArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +14,11 @@ import java.util.Scanner;
 public class QueryParser implements Parser<QueryToken> {
 
     private final QueryTokenTypeProvider provider = new QueryTokenTypeProvider();
-    private final List<QueryToken> tokens = new ArrayList<>();
+    private List<QueryToken> tokens;
 
     @Override
     public List<QueryToken> parse(final String declare, final String query) {
+        tokens = new ArrayList<>();
         parseTokens(declare);
         parseTokens(query);
         tokens.add(QueryToken.builder().type(QueryTokenType.EOL).build());

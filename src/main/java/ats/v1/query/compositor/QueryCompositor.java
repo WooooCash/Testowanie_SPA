@@ -22,13 +22,16 @@ public class QueryCompositor {
     private Set<QueryTokenType> quotations = Set.of(QueryTokenType.QUOTATION, QueryTokenType.QUOTATION2, QueryTokenType.QUOTATION3);
     private final QueryTokenTypeProvider provider = new QueryTokenTypeProvider();
 
-    private Query query = new Query();
-    private List<Declaration> declarations = new ArrayList<>();
+    private Query query;
+    private List<Declaration> declarations;
     private boolean isWithoutDeclaration = false;
     private QueryTokenType currentEssential;
-    private List<QueryToken> currentTemplateTokens = new ArrayList<>();
+    private List<QueryToken> currentTemplateTokens;
 
     public Query composite(final List<QueryToken> tokens) {
+        query = new Query();
+        declarations = new ArrayList<>();
+        currentTemplateTokens = new ArrayList<>();
         if (tokens.isEmpty()) {
             throw new QueryException("Tokens list is empty.");
         }
