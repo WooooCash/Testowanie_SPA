@@ -19,15 +19,9 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class PKB_Impl implements Pkb{
-    private ModifiesTable mtable;
-    private UsesTable utable;
-    private VarTable varTable;
-    private StatementTable statTable;
-    private CallsTable ctable;
-    private ProcTable ptable;
-
+public class PKB_Impl implements Pkb {
     private static final Map<String, Type> statementMapping;
+
     static {
         statementMapping = new HashMap<>();
         statementMapping.put("stmt", StatementNode.class);
@@ -36,6 +30,13 @@ public class PKB_Impl implements Pkb{
         statementMapping.put("call", CallNode.class);
         statementMapping.put("procedure", ProcedureNode.class);
     } //TODO wynieść do zewnętrznej klasy
+
+    private ModifiesTable mtable;
+    private UsesTable utable;
+    private VarTable varTable;
+    private StatementTable statTable;
+    private CallsTable ctable;
+    private ProcTable ptable;
 
     public boolean modifies(int statement, String var) {
         return mtable.isModified(varTable.getIndexOf(var), statement);
@@ -88,7 +89,48 @@ public class PKB_Impl implements Pkb{
         if (statement1 == null) return -1;
         Node before = statement1.getFollows();
         if (before != null && checkType(before, type)) {
-            return ((StatementNode)before).getLine();
+            return ((StatementNode) before).getLine();
+        }
+
+        return -1;
+    }
+
+    @Override
+    public boolean isParent(int s1, int s2) {
+        StatementNode statement1 = statTable.getStatement(s1);
+        StatementNode statement2 = statTable.getStatement(s2);
+        if (statement1 == null || statement2 == null) return false;
+        return statement2.getParent() == statement1;
+    }
+
+    @Override
+    public List<Integer> getChild(int s1, String type) {
+        List<Integer> result = new ArrayList<>();
+        StatementNode statement1 = statTable.getStatement(s1);
+        if (statement1.getChildren().isEmpty()) return result;
+        if (statement1.getChildren().get(0) instanceof StatementListNode) {
+            List<Node> children = statement1.getChildren().get(0).getChildren();
+            for (Node n : children) {
+                if (!(n instanceof StatementNode)) continue;
+                result.add(((StatementNode)n).getLine());
+            }
+        } else {
+            List<Node> children = statement1.getChildren();
+            for (Node n : children) {
+                if (!(n instanceof StatementNode)) continue;
+                result.add(((StatementNode)n).getLine());
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public int getParent(int s2, String type) {
+        StatementNode statement1 = statTable.getStatement(s2);
+        if (statement1 == null) return -1;
+        Node parent = statement1.getParent();
+        if (parent != null && checkType(parent, type)) {
+            return ((StatementNode) parent).getLine();
         }
 
         return -1;
@@ -98,12 +140,24 @@ public class PKB_Impl implements Pkb{
         return ctable.doesCall(p1, p2);
     }
 
-    public List<Integer> calls(int p2) {
-        return ctable.getCalls(p2);
+    public List<String> calls(String p2) {
+        int procIdx = ptable.getIndexOf(p2);
+        List<Integer> procs = ctable.getCalls(procIdx);
+        List<String> result = new ArrayList<>();
+        for (int p : procs) {
+            result.add(ptable.getName(p));
+        }
+        return result;
     }
 
-    public List<Integer> calledFrom(int p1) {
-        return ctable.getCalledFrom(p1);
+    public List<String> calledFrom(String p1) {
+        int procIdx = ptable.getIndexOf(p1);
+        List<Integer> procs = ctable.getCalledFrom(procIdx);
+        List<String> result = new ArrayList<>();
+        for (Integer p : procs) {
+            result.add(ptable.getName(p));
+        }
+        return result;
     }
 
     @Override
@@ -147,6 +201,7 @@ public class PKB_Impl implements Pkb{
 
 
     private boolean checkType(Node s, String type) {
+        if (type.equals("prog_line")) return s instanceof StatementNode;
         if (type.equals("stmt")) return s.getClass() != ProcedureNode.class && s instanceof StatementNode;
         if (type.equals("assign")) return s instanceof AssignNode;
         if (type.equals("while")) return s instanceof WhileNode;

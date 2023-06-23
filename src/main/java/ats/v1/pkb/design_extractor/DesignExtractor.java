@@ -33,6 +33,10 @@ public class DesignExtractor {
         traverse(ast.getRoot(), new ModifiesUsesForProcedureExtractor(mtable, utable, ctable, stable));
     }
 
+    public void extractParent() {
+        traverse(ast.getRoot(), new ParentExtractor());
+    }
+
     public void extractCalls(CallsTable ctable) {
         traverse(ast.getRoot(), new CallsExtractor(ctable));
     }

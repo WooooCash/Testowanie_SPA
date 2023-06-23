@@ -28,7 +28,11 @@ public class ProcTableImpl implements ProcTable {
 
     @Override
     public int getIndexOf(String name) {
-        return table.indexOf(name);
+        for (String s : table) {
+            if (s.toLowerCase().equals(name.toLowerCase()))
+                return table.indexOf(s);
+        }
+        return -1;
     }
 
 

@@ -12,7 +12,7 @@ import java.util.StringJoiner;
 
 public class QueryEvaluator {
 
-    private final List<String> statementTypes = Arrays.asList("stmt", "assign", "while", "if", "call");
+    private final List<String> statementTypes = Arrays.asList("stmt", "assign", "while", "if", "call", "prog_line");
     private final List<String> stringTypes = Arrays.asList("procedure", "variable");
 
     private final QueryResolver resolver = new QueryResolver();
@@ -93,33 +93,44 @@ public class QueryEvaluator {
                     answerType = "ints";
                 }
             }
+            else if (qn.getName().equals("parent")) {
+                if (type1.equals("number") && type2.equals("number")) {
+                    boolean isParent = pkb.isParent(Integer.parseInt(qn.getParam1().getName()), Integer.parseInt(qn.getParam2().getName()));
+                    boolResult = boolResult && isParent;
+                    answerType = "bool";
+                } else if (type1.equals("number") && statementTypes.contains(type2)) {
+                    List<Integer> children = pkb.getChild(Integer.parseInt(qn.getParam1().getName()), type2);
+                    listResult = intersection(listResult, children);
+                    answerType = "ints";
+                    if (type1.equals("procedure")) {
+                        List<String> names = pkb.getProcedureNamesByLines(listResult);
+                        strListResult = intersection(strListResult, names);
+                        answerType = "strings";
+                    }
+                } else if (statementTypes.contains(type1) && type2.equals("number")) {
+                    int parent = pkb.getParent(Integer.parseInt(qn.getParam2().getName()), type1);
+                    if (parent != -1) {
+                        listResult = intersection(listResult, Arrays.asList(parent));
+                    }
+                    answerType = "ints";
+                }
+            } else if (qn.getName().equals("calls")) {
+                if (type1.equals("lexeme") && type2.equals("lexeme")) {
+                    boolean doesCall = pkb.calls(Integer.parseInt(qn.getParam1().getName()), Integer.parseInt(qn.getParam2().getName()));
+                    boolResult = boolResult && doesCall;
+                    answerType = "bool";
+                } else if (type1.equals("lexeme")) {
+                    List<String> procs = pkb.calledFrom(qn.getParam1().getName());
+                    strListResult = intersection(strListResult, procs);
+                    answerType = "strings";
+                } else if (type2.equals("lexeme")) {
+                    List<String> procs = pkb.calledFrom(qn.getParam2().getName());
+                    strListResult = intersection(strListResult, procs);
+                    answerType = "strings";
+                }
+            }
         }
-//        String name = query.getSuchThat().getName();
-//        switch (name) {
-//            case "modifies":
-//                if (query.getSuchThat().getChildren().size() == 1) {
-//                    List<String> modifies =
-//                            pkb.modifies(Integer.parseInt(query.getSuchThat().getChildren().get(0).getName()));
-//                    return resolver.resolveString(modifies);
-//                }
-//                break;
-//            case "follows":
-////                if (query.getSuchThat().)
-//                break;
-//            case "uses":
-//                if(query.getSuchThat().getChildren().size() == 1) {
-//
-//                }
-//                break;
-//        }
-//        return resolver.resolve(false);
-//        if (statementTypes.contains(resultType)) {
-//            return resolver.resolve(listResult);
-//        } else if (stringTypes.contains(resultType)) {
-//            return resolver.resolveString(strListResult);
-//        } else {
-//            return resolver.resolve(boolResult);
-//        }
+
         if (answerType.equals("bool")){
             return resolver.resolve(boolResult);
         } else if (answerType.equals("ints")){

@@ -22,11 +22,17 @@ public interface Pkb {
 
     int follows_before(int s2, String type);
 
+    boolean isParent(int s1, int s2);
+
+    List<Integer> getChild(int s1, String type);
+
+    int getParent(int s2, String type);
+
     public boolean calls(int p1, int p2);
 
-    public List<Integer> calls(int p2);
+    public List<String> calls(String p2);
 
-    public List<Integer> calledFrom(int p1);
+    public List<String> calledFrom(String p1);
 
     List<Integer> filterStatements(List<Integer> all, String type);
 

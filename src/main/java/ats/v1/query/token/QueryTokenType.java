@@ -17,6 +17,7 @@ public enum QueryTokenType {
     PARENT("PARENT", "parent", QueryTokenGroup.SUCH_THAT),
     PARENT_PLUS("PARENT_PLUS", "parent*", QueryTokenGroup.SUCH_THAT),
     MODIFIES("MODIFIES", "modifies", QueryTokenGroup.SUCH_THAT),
+    CALLS("CALLS", "calls", QueryTokenGroup.SUCH_THAT),
     MODIFIES_PLUS("MODIFIES_PLUS", "modifies*", QueryTokenGroup.SUCH_THAT),
     AFFECTS("AFFECTS", "affects", QueryTokenGroup.SUCH_THAT),
     DOT("DOT", ".", QueryTokenGroup.OTHER),
