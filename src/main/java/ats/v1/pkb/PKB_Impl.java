@@ -9,6 +9,7 @@ import ats.v1.pkb.var_table.VarTable;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,9 +25,10 @@ public class PKB_Impl implements Pkb{
     private StatementTable statTable;
     private CallsTable ctable;
 
-    private static final Map<String, Class> statementMapping;
+    private static final Map<String, Type> statementMapping;
     static {
         statementMapping = new HashMap<>();
+        statementMapping.put("stmt", StatementNode.class);
         statementMapping.put("assign", AssignNode.class);
         statementMapping.put("while", WhileNode.class);
         statementMapping.put("call", CallNode.class);
@@ -67,24 +69,24 @@ public class PKB_Impl implements Pkb{
         return statement2.getFollows() == statement1;
     }
 
-    public int follows_after(int s1) {
+    public int follows_after(int s1, String type) {
         StatementNode statement1 = statTable.getStatement(s1);
         for (StatementNode statement : statTable.getStatements()) {
-            if (statement.getFollows() == statement1) {
+            if (statement.getFollows() == statement1 && checkType(statement, type)) {
                 return statement.getLine();
             }
         }
         return -1;
     }
 
-    public int follows_before(int s2) {
+    public int follows_before(int s2, String type) {
         StatementNode statement1 = statTable.getStatement(s2);
         Node before = statement1.getFollows();
-        if (before == null) {
-            return -1;
+        if (before != null && checkType(before, type)) {
+            return ((StatementNode)before).getLine();
         }
 
-        return ((StatementNode)before).getLine();
+        return -1;
     }
 
     public boolean calls(int p1, int p2) {
@@ -105,9 +107,21 @@ public class PKB_Impl implements Pkb{
         }
         return all
                 .stream()
-                .filter(stmt -> statTable.getStatement(stmt).getClass() == statementMapping.get(type))
+                .filter(stmt -> checkType(statTable.getStatement(stmt), type))
                 .collect(Collectors.toList());
     }
+
+
+    private boolean checkType(Node s, String type) {
+        if (type.equals("stmt")) return s.getClass() != ProcedureNode.class && s instanceof StatementNode;
+        if (type.equals("assign")) return s instanceof AssignNode;
+        if (type.equals("while")) return s instanceof WhileNode;
+        if (type.equals("if")) return s instanceof IfNode;
+        if (type.equals("call")) return s instanceof CallNode;
+        if (type.equals("procedure")) return s instanceof ProcedureNode;
+        return false;
+    }
+
 
     private <T> List<T> castToEmpty(List<T> list) {
         return list != null ? list : new ArrayList<>();
