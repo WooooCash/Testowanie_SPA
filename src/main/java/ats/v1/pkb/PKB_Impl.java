@@ -66,11 +66,13 @@ public class PKB_Impl implements Pkb{
     public boolean follows(int s1, int s2) {
         StatementNode statement1 = statTable.getStatement(s1);
         StatementNode statement2 = statTable.getStatement(s2);
+        if (statement1 == null || statement2 == null) return false;
         return statement2.getFollows() == statement1;
     }
 
     public int follows_after(int s1, String type) {
         StatementNode statement1 = statTable.getStatement(s1);
+        if (statement1 == null) return -1;
         for (StatementNode statement : statTable.getStatements()) {
             if (statement.getFollows() == statement1 && checkType(statement, type)) {
                 return statement.getLine();
@@ -81,6 +83,7 @@ public class PKB_Impl implements Pkb{
 
     public int follows_before(int s2, String type) {
         StatementNode statement1 = statTable.getStatement(s2);
+        if (statement1 == null) return -1;
         Node before = statement1.getFollows();
         if (before != null && checkType(before, type)) {
             return ((StatementNode)before).getLine();
