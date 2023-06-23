@@ -19,6 +19,7 @@ public class QueryParser implements Parser<QueryToken> {
     public List<QueryToken> parse(final String declare, final String query) {
         parseTokens(declare);
         parseTokens(query);
+        tokens.add(QueryToken.builder().type(QueryTokenType.EOL).build());
         return tokens;
     }
 

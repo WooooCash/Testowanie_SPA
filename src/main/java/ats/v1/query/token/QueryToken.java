@@ -11,5 +11,5 @@ public class QueryToken {
 
     final QueryTokenType type;
     final String lexeme;
-    final int value;
+    final Integer value;
 }

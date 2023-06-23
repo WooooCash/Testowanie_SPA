@@ -32,7 +32,7 @@ public enum QueryTokenType {
     MINORITY("MINORITY", "<", QueryTokenGroup.OTHER),
     MAJORITY("MAJORITY", ">", QueryTokenGroup.OTHER),
     COMMA("COMMA", ",", QueryTokenGroup.OTHER),
-    EOL("EOL", "", QueryTokenGroup.OTHER),
+    EOL("EOL", "", QueryTokenGroup.ESSENTIAL),
     SEMICOLON("SEMICOLON", ";", QueryTokenGroup.OTHER),
     STMT("STMT", "stmt", QueryTokenGroup.DECLARATION),
     ASSIGN("ASSIGN", "assign", QueryTokenGroup.DECLARATION),

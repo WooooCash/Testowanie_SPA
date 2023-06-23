@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
@@ -40,7 +39,6 @@ public class QueryCompositor {
         } else {
             currentEssential = tokens.get(0).getType();
         }
-
         for (QueryToken queryToken : tokens) {
             if (!isWithoutDeclaration && currentEssential.getGroup().equals(QueryTokenGroup.DECLARATION)) {
                 if (!queryToken.getType().equals(QueryTokenType.SELECT)) {
@@ -59,6 +57,19 @@ public class QueryCompositor {
                     continue;
                 } else {
                     createResult();
+                    currentEssential = queryToken.getType();
+                    currentTemplateTokens.clear();
+                }
+            }
+            if(currentEssential.equals(QueryTokenType.SUCH)) {
+                currentEssential = queryToken.getType();
+                continue;
+            }
+            if(currentEssential.equals(QueryTokenType.THAT)) {
+                if (!queryToken.getType().getGroup().equals(QueryTokenGroup.ESSENTIAL)) {
+                    currentTemplateTokens.add(queryToken);
+                } else {
+                    createSuchThat();
                     currentEssential = queryToken.getType();
                     currentTemplateTokens.clear();
                 }
@@ -93,6 +104,40 @@ public class QueryCompositor {
             }
         }
         query.getResult().addAll(resultNodes);
+    }
+
+    private void createSuchThat() {
+        QueryTokenType currentType = null;
+        List<QueryNode> currentParams = new ArrayList<>();
+        List<QueryNode> suchThatNodes = new ArrayList<>();
+        for(int i = 0; i < currentTemplateTokens.size(); i++){
+            if(currentTemplateTokens.get(i).getType().getGroup().equals(QueryTokenGroup.SUCH_THAT)) {
+                currentType = currentTemplateTokens.get(i).getType();
+            }
+            if(currentTemplateTokens.get(i).getType().equals(QueryTokenType.LEFT_PAREN)) {
+                while (!currentTemplateTokens.get(i).getType().equals(QueryTokenType.RIGHT_PAREN)) {
+                    if(currentTemplateTokens.get(i).getType().equals(QueryTokenType.QUOTATION)) {
+                        i++;
+                        while (!currentTemplateTokens.get(i).getType().equals(QueryTokenType.QUOTATION)) {
+                            currentParams.add(QueryNode.builder().name(currentTemplateTokens.get(i).getLexeme()).nodeType("lexeme").build());
+                            i++;
+                        }
+                    }
+                    QueryTokenType inDeclarations = isInDeclarations(currentTemplateTokens.get(i));
+                    if(inDeclarations != null) {
+                        currentParams.add(QueryNode.builder().name(currentTemplateTokens.get(i).getLexeme()).nodeType(inDeclarations.getQueryValue()).build());
+                    }
+                    if(currentTemplateTokens.get(i).getValue() != null) {
+                        currentParams.add(QueryNode.builder().name(String.valueOf(currentTemplateTokens.get(i).getValue())).nodeType("number").build());
+                    }
+                    i++;
+                }
+                suchThatNodes.add(QueryNode.builder().name(currentType.getQueryValue()).param1(currentParams.get(0)).param2(currentParams.get(1)).build());
+                currentParams.clear();
+                i++;
+            }
+        }
+        query.getSuchThat().addAll(suchThatNodes);
     }
 
     @AllArgsConstructor
