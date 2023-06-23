@@ -17,7 +17,7 @@ public class QueryProcessor {
 
     public String process(final String queryString, final String declaration, final Pkb pkb) {
         List<QueryToken> tokens = parser.parse(declaration, queryString);
-        validator.validate(tokens);
+      //  validator.validate(tokens);
 
         List<QueryToken> validatedTokens = validator.checkTokens(tokens);
         Query query = compositor.composite(validatedTokens);

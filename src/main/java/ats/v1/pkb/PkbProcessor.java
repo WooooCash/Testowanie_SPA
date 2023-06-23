@@ -16,6 +16,8 @@ import ats.v1.pkb.var_table.VarTable;
 import ats.v1.pkb.var_table.VarTableImpl;
 import ats.v1.spa_frontend.scanner.Scanner;
 import ats.v1.spa_frontend.token.Token;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;

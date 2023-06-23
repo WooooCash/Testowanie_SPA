@@ -9,12 +9,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Main {
 
-    private static final QueryProcessor queryProcessor = new QueryProcessor();
-    private static final PkbProcessor pkbProcessor = new PkbProcessor();
-
-    private static final QueryCompositorMock mock = new QueryCompositorMock();
 
     public static void main(String[] args) {
+        QueryProcessor queryProcessor = new QueryProcessor();
+        PkbProcessor pkbProcessor = new PkbProcessor();
+        QueryCompositorMock mock = new QueryCompositorMock();
+
         log.info("Test");
         Pkb pkb;
         try {
@@ -33,15 +33,18 @@ public class Main {
                 break;
             }
             String mocked = mock.mock(queryString);
-            if(mocked != null) {
+            if (mocked != null) {
                 System.out.println(mocked);
                 continue;
             }
-            String result = "none";
-            try{
-               result = queryProcessor.process(queryString, declaration, pkb);
-            }
-            catch (Exception e) {
+            String result;
+            try {
+                result = queryProcessor.process(queryString, declaration, pkb);
+            } catch (Exception e) {
+                result = "PAPA";
+                //log.info(e.getMessage(),e);
+                //System.out.println("Pojebało kogos");
+                //continue;
             }
             System.out.println(result);
         }
