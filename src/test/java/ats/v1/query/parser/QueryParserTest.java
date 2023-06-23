@@ -15,7 +15,7 @@ class QueryParserTest {
         String query = "Select s1 such that Follows (s1, s2)";
         QueryParser reader = new QueryParser();
         List<QueryToken> tokens = reader.parse(null, query);
-        assertThat(tokens).isNotNull().hasSize(10);
+        assertThat(tokens).isNotNull().hasSize(11);
         assertThat(tokens.get(0).getType()).isEqualTo(QueryTokenType.SELECT);
         assertThat(tokens.get(1).getType()).isEqualTo(QueryTokenType.LEXEME);
         assertThat(tokens.get(1).getLexeme()).isEqualTo("s1");
@@ -36,7 +36,7 @@ class QueryParserTest {
         String query = "Select a such that Follows (\"20\", a)";
         QueryParser reader = new QueryParser();
         List<QueryToken> tokens = reader.parse(null, query);
-        assertThat(tokens).isNotNull().hasSize(12);
+        assertThat(tokens).isNotNull().hasSize(13);
         assertThat(tokens.get(0).getType()).isEqualTo(QueryTokenType.SELECT);
         assertThat(tokens.get(1).getType()).isEqualTo(QueryTokenType.LEXEME);
         assertThat(tokens.get(1).getLexeme()).isEqualTo("a");
@@ -61,7 +61,7 @@ class QueryParserTest {
         QueryParser reader = new QueryParser();
         List<QueryToken> tokens = reader.parse(declare, query);
         assertThat(tokens).isNotNull();
-        assertThat(tokens).hasSize(24);
+        assertThat(tokens).hasSize(25);
     }
 
 }
