@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -12,8 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Query {
-    private List<QueryNode> result;
-    private List<QueryNode> suchThat;
-    private List<QueryNode> with;
-    private List<QueryNode> pattern;
+    private List<QueryNode> result = new ArrayList<>();
+    private List<QueryNode> suchThat = new ArrayList<>();
+    private List<QueryNode> with = new ArrayList<>();
+    private List<QueryNode> pattern = new ArrayList<>();
 }

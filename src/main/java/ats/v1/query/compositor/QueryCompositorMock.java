@@ -3,17 +3,13 @@ package ats.v1.query.compositor;
 import ats.v1.query.processor.Query;
 import ats.v1.query.processor.QueryNode;
 import ats.v1.query.token.QueryToken;
-import ats.v1.query.token.QueryTokenValue;
+import ats.v1.query.token.QueryTokenType;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @AllArgsConstructor
-@NoArgsConstructor(force = true)
 public class QueryCompositorMock {
-
-    private final List<QueryToken> tokens;
 
     public Query composite(final List<QueryToken> tokens) {
         QueryNode select = QueryNode.builder().name("s").nodeType("stmt").build();
@@ -47,7 +43,7 @@ public class QueryCompositorMock {
     }
 
     public String mock(final List<QueryToken> tokens) {
-        if(tokens.contains(QueryToken.builder().type(QueryTokenValue.MINORITY).build())) {
+        if (tokens.contains(QueryToken.builder().type(QueryTokenType.MINORITY).build())) {
             return "none";
         }
         return null;

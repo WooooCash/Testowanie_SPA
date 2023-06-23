@@ -2,7 +2,6 @@ package ats.v1.query.compositor;
 
 import ats.v1.query.QueryTestUtils;
 import ats.v1.query.processor.Query;
-import ats.v1.query.token.QueryTokenValue;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -17,15 +16,13 @@ class QueryCompositorTest {
         assertDoesNotThrow(() -> queryCompositor.composite(QueryTestUtils.getDeclarationTokens()));
     }
 
-    @Disabled
     @Test
-    void shouldCreateSuchThatCorrectly() {
+    void shouldCreateResultCorrectly() {
         QueryCompositor compositor = new QueryCompositor();
-        Query query = compositor.composite(QueryTestUtils.getTokens());
-        assertThat(query.getSuchThat()).isNotNull();
-        assertThat(query.getSuchThat().get(0).getName()).isEqualTo(QueryTokenValue.MODIFIES.name());
-        assertThat(query.getSuchThat().get(0).getParam1()).isNotNull().isEqualTo("a");
-        assertThat(query.getSuchThat().get(0).getParam2()).isNotNull().isEqualTo("v");
+        Query query = compositor.composite(QueryTestUtils.getWKurweMocneTokens());
+        assertThat(query.getResult()).isNotNull();
+        assertThat(query.getResult().get(0).getName()).isEqualTo("a1");
+        assertThat(query.getResult().get(0).getNodeType()).isEqualTo("assign");
     }
 
 }
