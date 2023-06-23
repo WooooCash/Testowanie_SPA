@@ -38,7 +38,7 @@ class QueryCompositorTest {
     void shouldCreateWithCorrectly() {
         QueryCompositor compositor = new QueryCompositor();
         Query query = compositor.composite(QueryTestUtils.getTokens());
-        assertThat(query.getWith()).isNotNull();
+        assertThat(query.getWith()).isNotNull().hasSize(3);
     }
 
 }
