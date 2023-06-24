@@ -116,7 +116,7 @@ public class QueryEvaluator {
                 }
             } else if (qn.getName().equals("calls")) {
                 if (type1.equals("lexeme") && type2.equals("lexeme")) {
-                    boolean doesCall = pkb.calls(Integer.parseInt(qn.getParam1().getName()), Integer.parseInt(qn.getParam2().getName()));
+                    boolean doesCall = pkb.calls(qn.getParam1().getName(), qn.getParam2().getName());
                     boolResult = boolResult && doesCall;
                     answerType = "bool";
                 } else if (type1.equals("lexeme")) {

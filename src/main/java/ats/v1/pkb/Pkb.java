@@ -28,7 +28,7 @@ public interface Pkb {
 
     int getParent(int s2, String type);
 
-    public boolean calls(int p1, int p2);
+    public boolean calls(String p1, String p2);
 
     public List<String> calls(String p2);
 

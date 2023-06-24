@@ -136,8 +136,11 @@ public class PKB_Impl implements Pkb {
         return -1;
     }
 
-    public boolean calls(int p1, int p2) {
-        return ctable.doesCall(p1, p2);
+    public boolean calls(String p1, String p2) {
+        int proc1 = ptable.getIndexOf(p1);
+        int proc2 = ptable.getIndexOf(p2);
+        if (proc1 == -1 || proc2 == -1) return false;
+        return ctable.doesCall(proc1, proc2);
     }
 
     public List<String> calls(String p2) {
