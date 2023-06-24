@@ -124,7 +124,7 @@ public class QueryEvaluator {
                     strListResult = intersection(strListResult, procs);
                     answerType = "strings";
                 } else if (type2.equals("lexeme")) {
-                    List<String> procs = pkb.calledFrom(qn.getParam2().getName());
+                    List<String> procs = pkb.calls(qn.getParam2().getName());
                     strListResult = intersection(strListResult, procs);
                     answerType = "strings";
                 }
