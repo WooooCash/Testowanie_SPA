@@ -108,8 +108,14 @@ public class PKB_Impl implements Pkb {
         List<Integer> result = new ArrayList<>();
         StatementNode statement1 = statTable.getStatement(s1);
         if (statement1.getChildren().isEmpty()) return result;
-        if (statement1.getChildren().get(0) instanceof StatementListNode) {
+        if (type.equals("Procedure") && statement1.getChildren().get(0) instanceof StatementListNode) {
             List<Node> children = statement1.getChildren().get(0).getChildren();
+            for (Node n : children) {
+                if (!(n instanceof StatementNode)) continue;
+                result.add(((StatementNode)n).getLine());
+            }
+        } else if (statement1.getChildren().get(1) instanceof StatementListNode) {
+            List<Node> children = statement1.getChildren().get(1).getChildren();
             for (Node n : children) {
                 if (!(n instanceof StatementNode)) continue;
                 result.add(((StatementNode)n).getLine());
