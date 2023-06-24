@@ -45,8 +45,8 @@ public class QueryCompositorMock {
     public String mock(final String query) {
         if(query.contains("<"))
             return "none";
-        if(query.contains("BOOLEAN") || query.contains("boolean") || query.contains("Boolean"))
-            return "true";
+//        if(query.contains("BOOLEAN") || query.contains("boolean") || query.contains("Boolean"))
+//            return "true";
         return null;
     }
 
